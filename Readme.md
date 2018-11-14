@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
 * Студент: [Артем Горюшкин](https://up.htmlacademy.ru/javascript/16/user/18378).
-* Наставник: `Неизвестно`.
+* Наставник: [Борис Ванюшин](https://htmlacademy.ru/profile/id62080).
 
 ---
 
