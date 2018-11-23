@@ -18,25 +18,40 @@ var DESCRIPTIONS = [
   'Вот это тачка!'
 ];
 
-var NUMBERS_OF_PHOTOS = 25;
-var MIN_LIKES_AMOUNT = 15;
-var MAX_LIKES_AMOUNT = 200;
+var NUMBER_OF_PHOTOS = 25;
+var MIN_NUMBER_OF_LIKES = 15;
+var MAX_NUMBER_OF_LIKES = 200;
 var NUMBER_OF_COMMENTS = 2;
-var PICURES_CONTAINER = '.pictures';
-var PICTURE_TEMPLATE = '#picture';
-var USER_PICTURE = '.picture';
-var HIDE_SELECTOR = 'hidden';
-var VISUALLY_HIDDEN_SELECTOR = '.visually-hidden';
-var BIG_PICTURE = '.big-picture';
+var HIDE_CLASS = 'hidden';
+var VISUALLY_HIDDEN_CLASS = 'visually-hidden';
+
+var Selectors = {
+  PICTURES_CONTAINER: '.pictures',
+  PICTURE_TEMPLATE: '#picture',
+  USER_PICTURE: '.picture',
+  BIG_PICTURE: '.big-picture',
+  BIG_PICTURE_IMG: '.big-picture__img',
+  BIG_PICTURE_LIKES_COUNT: '.likes-count',
+  BIG_PICTURE_COMMENTS_COUNT: '.comments-count',
+  BIG_PICTURE_SOCIAL_PICTURE: '.social__picture',
+  BIG_PICTURE_SOCIAL_TEXT: '.social__text',
+  BIG_PICTURE_SOCIAL_CAPTION: '.social__caption',
+  SOCIAL_COMMENT_COUNT: '.social__comment-count',
+  SOCIAL_COMMENT: '.social__comment',
+  SOCIAL_COMMENT_LOADER: '.social__comments-loader',
+  PICTURE_TEMPLATE_IMG: '.picture__img',
+  PICTURE_TEMPLATE_LIKES: '.picture__likes',
+  PICTURE_TEMPLATE_COMMENTS: '.picture__comments'
+}
 
 var pictureTemplate =
-document.querySelector(PICTURE_TEMPLATE).content.querySelector(USER_PICTURE);
+document.querySelector(Selectors.PICTURE_TEMPLATE).content.querySelector(Selectors.USER_PICTURE);
 
-var picturesContainer = document.querySelector(PICURES_CONTAINER);
-var bigPicure = document.querySelector(BIG_PICTURE);
-var socialCommentCount = bigPicure.querySelector('.social__comment-count');
-var socialComments = bigPicure.querySelectorAll('.social__comment');
-var commentLoader = bigPicure.querySelectorAll('.comments-loader');
+var picturesContainer = document.querySelector(Selectors.PICTURES_CONTAINER);
+var bigPicure = document.querySelector(Selectors.BIG_PICTURE);
+var socialCommentCount = bigPicure.querySelector(Selectors.SOCIAL_COMMENT_COUNT);
+var socialComments = bigPicure.querySelectorAll(Selectors.SOCIAL_COMMENT);
+var commentLoader = bigPicure.querySelector(Selectors.SOCIAL_COMMENT_LOADER);
 
 var photosInfoList = [];
 
@@ -61,7 +76,7 @@ var generateNewArrow = function (newArrowSize) {
 var createPhotoInfo = function (photosNumber) {
   var newPhotoInfo = {};
   newPhotoInfo.url = 'photos/' + photosNumber + '.jpg';
-  newPhotoInfo.likes = getRandom(MAX_LIKES_AMOUNT, MIN_LIKES_AMOUNT);
+  newPhotoInfo.likes = getRandom(MAX_NUMBER_OF_LIKES, MIN_NUMBER_OF_LIKES);
   newPhotoInfo.comments = generateNewArrow(NUMBER_OF_COMMENTS);
   newPhotoInfo.description = DESCRIPTIONS[getRandom(DESCRIPTIONS.length - 1)];
   return newPhotoInfo;
@@ -69,32 +84,32 @@ var createPhotoInfo = function (photosNumber) {
 
 var renderUserPicture = function (photoInfo) {
   var photoElement = pictureTemplate.cloneNode(true);
-  photoElement.querySelector('.picture__img').src = photoInfo.url;
-  photoElement.querySelector('.picture__likes').textContent = photoInfo.likes;
-  photoElement.querySelector('.picture__comments').textContent = photoInfo.comments.length;
+  photoElement.querySelector(Selectors.PICTURE_TEMPLATE_IMG).src = photoInfo.url;
+  photoElement.querySelector(Selectors.PICTURE_TEMPLATE_LIKES).textContent = photoInfo.likes;
+  photoElement.querySelector(Selectors.PICTURE_TEMPLATE_COMMENTS).textContent = photoInfo.comments.length;
   return photoElement;
 };
 
 var fragment = document.createDocumentFragment();
 
-for (var i = 1; i <= NUMBERS_OF_PHOTOS; i++) {
+for (var i = 1; i <= NUMBER_OF_PHOTOS; i++) {
   photosInfoList.push(createPhotoInfo(i));
   fragment.appendChild(renderUserPicture(photosInfoList[i - 1]));
 }
 
 var fillBigUserPicture = function () {
-  bigPicure.querySelector('.big-picture__img').src = photosInfoList[0].url;
-  bigPicure.querySelector('.likes-count').textContent = photosInfoList[0].likes;
-  bigPicure.querySelector('.comments-count').textContent = photosInfoList[0].comments.length;
+  bigPicure.querySelector(Selectors.BIG_PICTURE_IMG).src = photosInfoList[0].url;
+  bigPicure.querySelector(Selectors.BIG_PICTURE_LIKES_COUNT).textContent = photosInfoList[0].likes;
+  bigPicure.querySelector(Selectors.BIG_PICTURE_COMMENTS_COUNT).textContent = photosInfoList[0].comments.length;
   for (i = 0; i < photosInfoList[0].comments.length; i++) {
-    socialComments[i].querySelector('.social__picture').src = 'img/avatar-' + getRandom(6, 1) + '.svg';
-    socialComments[i].querySelector('.social__text').textContent = photosInfoList[0].comments[i];
+    socialComments[i].querySelector(Selectors.BIG_PICTURE_SOCIAL_PICTURE).src = 'img/avatar-' + getRandom(6, 1) + '.svg';
+    socialComments[i].querySelector(Selectors.BIG_PICTURE_SOCIAL_TEXT).textContent = photosInfoList[0].comments[i];
   }
-  bigPicure.querySelector('.social__caption').textContent = photosInfoList[0].description;
+  bigPicure.querySelector(Selectors.BIG_PICTURE_SOCIAL_CAPTION).textContent = photosInfoList[0].description;
 }
 
 picturesContainer.appendChild(fragment);
-bigPicure.classList.remove(HIDE_SELECTOR);
+bigPicure.classList.remove(HIDE_CLASS);
 fillBigUserPicture();
-socialCommentCount.classList.add(VISUALLY_HIDDEN_SELECTOR);
-commentLoader.classList.add(VISUALLY_HIDDEN_SELECTOR);
+socialCommentCount.classList.add(VISUALLY_HIDDEN_CLASS);
+commentLoader.classList.add(VISUALLY_HIDDEN_CLASS);
