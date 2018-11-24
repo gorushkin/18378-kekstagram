@@ -37,6 +37,7 @@ var Selectors = {
   BIG_PICTURE_SOCIAL_TEXT: '.social__text',
   BIG_PICTURE_SOCIAL_CAPTION: '.social__caption',
   SOCIAL_COMMENT_COUNT: '.social__comment-count',
+  SOCIAL_COMMENTS_LIST: '.social__comments',
   SOCIAL_COMMENT: '.social__comment',
   SOCIAL_COMMENT_LOADER: '.social__comments-loader',
   PICTURE_TEMPLATE_IMG: '.picture__img',
@@ -51,7 +52,7 @@ var picturesContainer = document.querySelector(Selectors.PICTURES_CONTAINER);
 var bigPicure = document.querySelector(Selectors.BIG_PICTURE);
 var socialCommentCount = bigPicure.querySelector(Selectors.SOCIAL_COMMENT_COUNT);
 var socialComments = bigPicure.querySelectorAll(Selectors.SOCIAL_COMMENT);
-var socialCommentsList = bigPicure.querySelector('.social__comments');
+var socialCommentsList = bigPicure.querySelector(Selectors.SOCIAL_COMMENTS_LIST);
 var commentLoader = bigPicure.querySelector(Selectors.SOCIAL_COMMENT_LOADER);
 
 var photosInfoList = [];
@@ -105,7 +106,7 @@ var renderBigUserPictureComments = function (n) {
   return newElement;
 };
 
-var fillBigUserPicture = function () {
+var renderBigUserPicture = function () {
   bigPicure.querySelector(Selectors.BIG_PICTURE_IMG).src = photosInfoList[0].url;
   bigPicure.querySelector(Selectors.BIG_PICTURE_LIKES_COUNT).textContent = photosInfoList[0].likes;
   bigPicure.querySelector(Selectors.BIG_PICTURE_COMMENTS_COUNT).textContent = photosInfoList[0].comments.length;
@@ -123,10 +124,10 @@ var fragment = document.createDocumentFragment();
 for (var i = 1; i <= NUMBER_OF_PHOTOS; i++) {
   photosInfoList.push(createPhotoInfo(i));
   fragment.appendChild(renderUserPicture(photosInfoList[i - 1]));
-};
+}
 
 picturesContainer.appendChild(fragment);
 bigPicure.classList.remove(HIDE_CLASS);
-fillBigUserPicture();
+renderBigUserPicture();
 socialCommentCount.classList.add(VISUALLY_HIDDEN_CLASS);
 commentLoader.classList.add(VISUALLY_HIDDEN_CLASS);
