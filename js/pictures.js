@@ -18,10 +18,10 @@ var DESCRIPTIONS = [
   'Вот это тачка!'
 ];
 
-var NUMBER_OF_PHOTOS = 25;
-var MIN_NUMBER_OF_LIKES = 15;
-var MAX_NUMBER_OF_LIKES = 200;
-var NUMBER_OF_COMMENTS = 2;
+var PHOTOS_COUNT = 25;
+var LIKES_MIN_COUNT = 15;
+var LIKES_MAX_COUNT = 200;
+var COMMENTS_COUNT = 2;
 var HIDE_CLASS = 'hidden';
 var VISUALLY_HIDDEN_CLASS = 'visually-hidden';
 
@@ -63,22 +63,22 @@ var getRandomInteger = function (max, min) {
   return randomdInteger;
 };
 
-var generateNewArrow = function (inputArrow, size) {
-  var tempArrow = inputArrow.slice();
-  var newArrow = [];
+var generateSubCollection = function (inputArray, size) {
+  var tempArray = inputArray.slice();
+  var newArray = [];
   for (var i = 1; i <= size; i++) {
-    var rnd = getRandomInteger(tempArrow.length);
-    var tempElement = tempArrow.splice(rnd - 1, 1);
-    newArrow = newArrow.concat(tempElement);
+    var rnd = getRandomInteger(tempArray.length);
+    var tempElement = tempArray.splice(rnd - 1, 1);
+    newArray = newArray.concat(tempElement);
   }
-  return newArrow;
+  return newArray;
 };
 
 var createPhotoInfo = function (photosNumber) {
   var newPhotoInfo = {};
-  newPhotoInfo.url = 'photos/' + photosNumber + '.jpg';
-  newPhotoInfo.likes = getRandomInteger(MAX_NUMBER_OF_LIKES, MIN_NUMBER_OF_LIKES);
-  newPhotoInfo.comments = generateNewArrow(COMMENTS, getRandomInteger(NUMBER_OF_COMMENTS));
+  newPhotoInfo.url = 'photos/' + photosNumber.toString() + '.jpg';
+  newPhotoInfo.likes = getRandomInteger(LIKES_MAX_COUNT, LIKES_MIN_COUNT);
+  newPhotoInfo.comments = generateSubCollection(COMMENTS, getRandomInteger(COMMENTS_COUNT));
   newPhotoInfo.description = DESCRIPTIONS[getRandomInteger(DESCRIPTIONS.length - 1)];
   return newPhotoInfo;
 };
@@ -93,7 +93,7 @@ var renderUserPicture = function (photoInfo) {
 
 var fragment = document.createDocumentFragment();
 
-for (var i = 1; i <= NUMBER_OF_PHOTOS; i++) {
+for (var i = 1; i <= PHOTOS_COUNT; i++) {
   photosInfoList.push(createPhotoInfo(i));
   fragment.appendChild(renderUserPicture(photosInfoList[i - 1]));
 }
@@ -110,7 +110,7 @@ var fillBigUserPicture = function () {
 };
 
 picturesContainer.appendChild(fragment);
-bigPicure.classList.remove(HIDE_CLASS);
+// bigPicure.classList.remove(HIDE_CLASS);
 fillBigUserPicture();
 socialCommentCount.classList.add(VISUALLY_HIDDEN_CLASS);
 commentLoader.classList.add(VISUALLY_HIDDEN_CLASS);
