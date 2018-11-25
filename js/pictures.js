@@ -56,19 +56,19 @@ var commentLoader = bigPicure.querySelector(Selectors.SOCIAL_COMMENT_LOADER);
 var photosInfoList = [];
 
 var getRandomInteger = function (min, max) {
-  var randomdInteger = Math.floor(Math.random() * (max - min) + min);
-  return randomdInteger;
+  var randomInteger = Math.floor(Math.random() * (max - min) + min);
+  return randomInteger;
 };
 
-var generateSubCollection = function (inputArray, size) {
-  var tempArray = inputArray.slice();
-  var newArray = [];
-  for (var i = 1; i <= size; i++) {
+var generateSubCollection = function (inputCollection, size) {
+  var tempArray = inputCollection.slice();
+  var subArray = [];
+  for (var i = 0; i < size; i++) {
     var rnd = getRandomInteger(0, tempArray.length);
     var tempElement = tempArray.splice(rnd, 1);
-    newArray = newArray.concat(tempElement);
+    subArray = subArray.concat(tempElement);
   }
-  return newArray;
+  return subArray;
 };
 
 var createPhotoInfo = function (photosNumber) {
@@ -90,9 +90,9 @@ var renderUserPicture = function (photoInfo) {
 
 var fragment = document.createDocumentFragment();
 
-for (var i = 1; i <= PHOTOS_COUNT; i++) {
-  photosInfoList.push(createPhotoInfo(i));
-  fragment.appendChild(renderUserPicture(photosInfoList[i - 1]));
+for (var i = 0; i < PHOTOS_COUNT; i++) {
+  photosInfoList.push(createPhotoInfo(i + 1));
+  fragment.appendChild(renderUserPicture(photosInfoList[i]));
 }
 
 var fillBigUserPicture = function () {
