@@ -56,10 +56,6 @@ var commentLoader = bigPicure.querySelector(Selectors.SOCIAL_COMMENT_LOADER);
 var photosInfoList = [];
 
 var getRandomInteger = function (min, max) {
-  // if (max === undefined) {
-  //   max = min;
-  //   min = 0;
-  // }
   var randomdInteger = Math.floor(Math.random() * (max - min) + min);
   return randomdInteger;
 };
@@ -111,7 +107,7 @@ var fillBigUserPicture = function () {
 };
 
 picturesContainer.appendChild(fragment);
-// bigPicure.classList.remove(HIDE_CLASS);
+bigPicure.classList.remove(HIDE_CLASS);
 fillBigUserPicture();
 socialCommentCount.classList.add(VISUALLY_HIDDEN_CLASS);
 commentLoader.classList.add(VISUALLY_HIDDEN_CLASS);
