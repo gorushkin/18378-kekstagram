@@ -55,11 +55,12 @@ var commentLoader = bigPicure.querySelector(Selectors.SOCIAL_COMMENT_LOADER);
 
 var photosInfoList = [];
 
-var getRandomInteger = function (max, min) {
-  if (min === undefined) {
-    min = 1;
-  }
-  var randomdInteger = Math.floor(Math.random() * (max + 1 - min) + min);
+var getRandomInteger = function (min, max) {
+  // if (max === undefined) {
+  //   max = min;
+  //   min = 0;
+  // }
+  var randomdInteger = Math.floor(Math.random() * (max - min) + min);
   return randomdInteger;
 };
 
@@ -67,8 +68,8 @@ var generateSubCollection = function (inputArray, size) {
   var tempArray = inputArray.slice();
   var newArray = [];
   for (var i = 1; i <= size; i++) {
-    var rnd = getRandomInteger(tempArray.length);
-    var tempElement = tempArray.splice(rnd - 1, 1);
+    var rnd = getRandomInteger(0, tempArray.length);
+    var tempElement = tempArray.splice(rnd, 1);
     newArray = newArray.concat(tempElement);
   }
   return newArray;
@@ -77,9 +78,9 @@ var generateSubCollection = function (inputArray, size) {
 var createPhotoInfo = function (photosNumber) {
   var newPhotoInfo = {};
   newPhotoInfo.url = 'photos/' + photosNumber.toString() + '.jpg';
-  newPhotoInfo.likes = getRandomInteger(LIKES_MAX_COUNT, LIKES_MIN_COUNT);
-  newPhotoInfo.comments = generateSubCollection(COMMENTS, getRandomInteger(COMMENTS_COUNT));
-  newPhotoInfo.description = DESCRIPTIONS[getRandomInteger(DESCRIPTIONS.length - 1)];
+  newPhotoInfo.likes = getRandomInteger(LIKES_MIN_COUNT, LIKES_MAX_COUNT + 1);
+  newPhotoInfo.comments = generateSubCollection(COMMENTS, getRandomInteger(1, COMMENTS_COUNT + 1));
+  newPhotoInfo.description = DESCRIPTIONS[getRandomInteger(0, DESCRIPTIONS.length)];
   return newPhotoInfo;
 };
 
@@ -103,7 +104,7 @@ var fillBigUserPicture = function () {
   bigPicure.querySelector(Selectors.BIG_PICTURE_LIKES_COUNT).textContent = photosInfoList[0].likes;
   bigPicure.querySelector(Selectors.BIG_PICTURE_COMMENTS_COUNT).textContent = photosInfoList[0].comments.length;
   for (i = 0; i < photosInfoList[0].comments.length; i++) {
-    socialComments[i].querySelector(Selectors.BIG_PICTURE_SOCIAL_PICTURE).src = 'img/avatar-' + getRandomInteger(6) + '.svg';
+    socialComments[i].querySelector(Selectors.BIG_PICTURE_SOCIAL_PICTURE).src = 'img/avatar-' + getRandomInteger(1, 7).toString() + '.svg';
     socialComments[i].querySelector(Selectors.BIG_PICTURE_SOCIAL_TEXT).textContent = photosInfoList[0].comments[i];
   }
   bigPicure.querySelector(Selectors.BIG_PICTURE_SOCIAL_CAPTION).textContent = photosInfoList[0].description;
