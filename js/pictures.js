@@ -21,16 +21,17 @@ var DESCRIPTIONS = [
 var PHOTOS_COUNT = 25;
 var LIKES_MIN_COUNT = 15;
 var LIKES_MAX_COUNT = 200;
-var COMMENTS_COUNT = 2;
+var COMMENTS_COUNT = 5;
 var HIDE_CLASS = 'hidden';
 var VISUALLY_HIDDEN_CLASS = 'visually-hidden';
+var ESC_KEYCODE = 27;
 
 var Selectors = {
-  PICTURES_CONTAINER: '.pictures',
+  PICTURES_LIST: '.pictures',
   PICTURE_TEMPLATE: '#picture',
   USER_PICTURE: '.picture',
   BIG_PICTURE: '.big-picture',
-  BIG_PICTURE_IMG: '.big-picture__img',
+  BIG_PICTURE_IMG: '.big-picture__img img',
   BIG_PICTURE_LIKES_COUNT: '.likes-count',
   BIG_PICTURE_COMMENTS_COUNT: '.comments-count',
   BIG_PICTURE_SOCIAL_PICTURE: '.social__picture',
@@ -38,20 +39,39 @@ var Selectors = {
   BIG_PICTURE_SOCIAL_CAPTION: '.social__caption',
   SOCIAL_COMMENT_COUNT: '.social__comment-count',
   SOCIAL_COMMENT: '.social__comment',
+  SOCIAL_COMMENTS_LIST: '.social__comments',
   SOCIAL_COMMENT_LOADER: '.social__comments-loader',
   PICTURE_TEMPLATE_IMG: '.picture__img',
   PICTURE_TEMPLATE_LIKES: '.picture__likes',
-  PICTURE_TEMPLATE_COMMENTS: '.picture__comments'
+  PICTURE_TEMPLATE_COMMENTS: '.picture__comments',
+  IMAGE_UPLOAD_FORM: '#upload-select-image',
+  IMAGE_UPLOAD_INPUT: '#upload-file',
+  EFFECT_LEVEL_VALUE: '.effect-level__value',
+  IMAGE_UPLOAD_POPUP: '.img-upload__overlay',
+  IMAGE_UPLOAD_POPUP_CLOSE_BUTTON: '.img-upload__cancel',
+  EFFECT_LEVEL_PIN: '.effect-level__pin',
+  EFFECT_LEVEL_DEPTH: '.effect-level__depth',
+  BIG_PICTURE_CLOSE: '.big-picture__cancel',
+  PICTURES_LIST_ITEM: '.picture'
 };
 
 var pictureTemplate =
 document.querySelector(Selectors.PICTURE_TEMPLATE).content.querySelector(Selectors.USER_PICTURE);
 
-var picturesContainer = document.querySelector(Selectors.PICTURES_CONTAINER);
+var picturesContainer = document.querySelector(Selectors.PICTURES_LIST);
 var bigPicure = document.querySelector(Selectors.BIG_PICTURE);
 var socialCommentCount = bigPicure.querySelector(Selectors.SOCIAL_COMMENT_COUNT);
 var socialComments = bigPicure.querySelectorAll(Selectors.SOCIAL_COMMENT);
 var commentLoader = bigPicure.querySelector(Selectors.SOCIAL_COMMENT_LOADER);
+var bigPictureClose = bigPicure.querySelector(Selectors.BIG_PICTURE_CLOSE);
+var socialCommentsList = bigPicure.querySelector(Selectors.SOCIAL_COMMENTS_LIST);
+var imageUploadPopup = document.querySelector(Selectors.IMAGE_UPLOAD_POPUP);
+var imageUploadForm = document.querySelector(Selectors.IMAGE_UPLOAD_FORM);
+var imageUploadInput = document.querySelector(Selectors.IMAGE_UPLOAD_INPUT);
+var imageUploadCloseButton = imageUploadPopup.querySelector(Selectors.IMAGE_UPLOAD_POPUP_CLOSE_BUTTON);
+var effectLevelPin = imageUploadPopup.querySelector(Selectors.EFFECT_LEVEL_PIN);
+// var effectLevelValue = imageUploadPopup.querySelector(Selectors.EFFECT_LEVEL_VALUE);
+// var effectLevelDepth = imageUploadPopup.querySelector(Selectors.EFFECT_LEVEL_DEPTH);
 
 var photosInfoList = [];
 
@@ -95,19 +115,80 @@ for (var i = 0; i < PHOTOS_COUNT; i++) {
   fragment.appendChild(renderUserPicture(photosInfoList[i]));
 }
 
-var fillBigUserPicture = function () {
-  bigPicure.querySelector(Selectors.BIG_PICTURE_IMG).src = photosInfoList[0].url;
-  bigPicure.querySelector(Selectors.BIG_PICTURE_LIKES_COUNT).textContent = photosInfoList[0].likes;
-  bigPicure.querySelector(Selectors.BIG_PICTURE_COMMENTS_COUNT).textContent = photosInfoList[0].comments.length;
-  for (i = 0; i < photosInfoList[0].comments.length; i++) {
-    socialComments[i].querySelector(Selectors.BIG_PICTURE_SOCIAL_PICTURE).src = 'img/avatar-' + getRandomInteger(1, 7).toString() + '.svg';
-    socialComments[i].querySelector(Selectors.BIG_PICTURE_SOCIAL_TEXT).textContent = photosInfoList[0].comments[i];
+var renderBigUserPictureComments = function (n, picture) {
+  var newElement = socialComments[0].cloneNode(true);
+  newElement.querySelector(Selectors.BIG_PICTURE_SOCIAL_PICTURE).src = 'img/avatar-' + getRandomInteger(1, 7).toString() + '.svg';
+  newElement.querySelector(Selectors.BIG_PICTURE_SOCIAL_TEXT).textContent = picture.comments[n];
+  return newElement;
+};
+
+var fillBigUserPicture = function (picture) {
+  socialCommentsList.innerHTML = '';
+  bigPicure.querySelector(Selectors.BIG_PICTURE_IMG).src = picture.url;
+  bigPicure.querySelector(Selectors.BIG_PICTURE_LIKES_COUNT).textContent = picture.likes;
+  bigPicure.querySelector(Selectors.BIG_PICTURE_COMMENTS_COUNT).textContent = picture.comments.length;
+  fragment = document.createDocumentFragment();
+  for (i = 0; i < picture.comments.length; i++) {
+    fragment.appendChild(renderBigUserPictureComments(i, picture));
   }
-  bigPicure.querySelector(Selectors.BIG_PICTURE_SOCIAL_CAPTION).textContent = photosInfoList[0].description;
+  socialCommentsList.appendChild(fragment);
+  bigPicure.querySelector(Selectors.BIG_PICTURE_SOCIAL_CAPTION).textContent = picture.description;
 };
 
 picturesContainer.appendChild(fragment);
-bigPicure.classList.remove(HIDE_CLASS);
-fillBigUserPicture();
 socialCommentCount.classList.add(VISUALLY_HIDDEN_CLASS);
 commentLoader.classList.add(VISUALLY_HIDDEN_CLASS);
+
+
+var openUploadPopup = function () {
+  imageUploadPopup.classList.remove(HIDE_CLASS);
+  document.addEventListener('keydown', onPopupKeyPress);
+};
+
+var closeUploadPopup = function () {
+  imageUploadPopup.classList.add(HIDE_CLASS);
+  document.removeEventListener('keydown', onPopupKeyPress);
+  imageUploadForm.reset();
+};
+
+imageUploadInput.addEventListener('change', openUploadPopup);
+imageUploadCloseButton.addEventListener('click', closeUploadPopup);
+
+
+effectLevelPin.addEventListener('mouseup', function () {
+  // effectLevelPin.style.left = '60%';
+  // effectLevelDepth.style.width = '60%';
+});
+
+var onPopupKeyPress = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    closeBigPicture();
+    closeUploadPopup();
+  }
+};
+
+var openBigPicture = function () {
+  bigPicure.classList.remove(HIDE_CLASS);
+  document.addEventListener('keydown', onPopupKeyPress);
+};
+
+var closeBigPicture = function () {
+  bigPicure.classList.add(HIDE_CLASS);
+  document.removeEventListener('keydown', onPopupKeyPress);
+
+};
+
+bigPictureClose.addEventListener('click', closeBigPicture);
+
+var picturesList = picturesContainer.querySelectorAll(Selectors.PICTURES_LIST_ITEM);
+
+var smallPictureHandler = function (n) {
+  picturesList[n].addEventListener('click', function () {
+    fillBigUserPicture(photosInfoList[n]);
+    openBigPicture();
+  });
+};
+
+for (i = 0; i < picturesList.length; i++) {
+  smallPictureHandler(i);
+}
