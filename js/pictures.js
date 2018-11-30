@@ -82,7 +82,8 @@ var Selectors = {
   BIG_PICTURE_CLOSE: '.big-picture__cancel',
   PICTURES_LIST_ITEM: '.picture',
   EFFECTS_PREVIEW_LIST: '.effects__list',
-  EFFECTS_PREVIEW_ITEM: '.effects__preview'
+  EFFECTS_PREVIEW_ITEM: '.effects__preview',
+  EFFECT_LEVEL_LINE: '.effect-level__line'
 };
 
 var pictureTemplate =
@@ -101,7 +102,8 @@ var imageUploadInput = document.querySelector(Selectors.IMAGE_UPLOAD_INPUT);
 var imageUploadCloseButton = imageUploadPopup.querySelector(Selectors.IMAGE_UPLOAD_POPUP_CLOSE_BUTTON);
 var imageUploadPreview = imageUploadPopup.querySelector(Selectors.IMAGE_UPLOAD_PREVEW);
 var effectsPreivewList = imageUploadPopup.querySelector(Selectors.EFFECTS_PREVIEW_LIST);
-var effectsPreivewItem = imageUploadPopup.querySelectorAll(Selectors.EFFECTS_PREVIEW_ITEM);
+// var effectsPreivewItem = imageUploadPopup.querySelectorAll(Selectors.EFFECTS_PREVIEW_ITEM);
+var effectLevelLine = imageUploadPopup.querySelector(Selectors.EFFECT_LEVEL_LINE);
 var effectLevelPin = imageUploadPopup.querySelector(Selectors.EFFECT_LEVEL_PIN);
 // var effectLevelValue = imageUploadPopup.querySelector(Selectors.EFFECT_LEVEL_VALUE);
 // var effectLevelDepth = imageUploadPopup.querySelector(Selectors.EFFECT_LEVEL_DEPTH);
@@ -187,13 +189,11 @@ imageUploadInput.addEventListener('change', openUploadPopup);
 imageUploadCloseButton.addEventListener('click', closeUploadPopup);
 openUploadPopup();
 
-// effectLevelPin.addEventListener('mouseup', function () {
-//   // effectLevelPin.style.left = '60%';
-//   // effectLevelDepth.style.width = '60%';
-//   var leftPinMargin = effectLevelPin.offsetLeft;
-//   console.log(leftPinMargin);
-
-// });
+effectLevelPin.addEventListener('mouseup', function () {
+  var leftPinMargin = effectLevelPin.offsetLeft;
+  var barWidth = effectLevelLine.offsetWidth;
+  var filterDepthValue = leftPinMargin * 100 / barWidth;
+});
 
 var onPopupKeyPress = function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
