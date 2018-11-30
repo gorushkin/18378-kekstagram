@@ -18,6 +18,33 @@ var DESCRIPTIONS = [
   'Вот это тачка!'
 ];
 
+var FILTERS = [
+  {
+    className: 'effects__preview--none',
+    filer: ''
+  },
+  {
+    className: 'effects__preview--chrome',
+    filer: 'grayscale(100%)'
+  },
+  {
+    className: 'effects__preview--sepia',
+    filer: 'sepia(100%)'
+  },
+  {
+    className: 'effects__preview--marvin',
+    filer: 'invert(100%)'
+  },
+  {
+    className: 'effects__preview--phobos',
+    filer: 'blur(5px)'
+  },
+  {
+    className: 'effects__preview--heat',
+    filer: 'brightness(3)'
+  }
+];
+
 var PHOTOS_COUNT = 25;
 var LIKES_MIN_COUNT = 15;
 var LIKES_MAX_COUNT = 200;
@@ -48,11 +75,14 @@ var Selectors = {
   IMAGE_UPLOAD_INPUT: '#upload-file',
   EFFECT_LEVEL_VALUE: '.effect-level__value',
   IMAGE_UPLOAD_POPUP: '.img-upload__overlay',
+  IMAGE_UPLOAD_PREVEW: '.img-upload__preview img',
   IMAGE_UPLOAD_POPUP_CLOSE_BUTTON: '.img-upload__cancel',
   EFFECT_LEVEL_PIN: '.effect-level__pin',
   EFFECT_LEVEL_DEPTH: '.effect-level__depth',
   BIG_PICTURE_CLOSE: '.big-picture__cancel',
-  PICTURES_LIST_ITEM: '.picture'
+  PICTURES_LIST_ITEM: '.picture',
+  EFFECTS_PREVIEW_LIST: '.effects__list',
+  EFFECTS_PREVIEW_ITEM: '.effects__preview'
 };
 
 var pictureTemplate =
@@ -69,6 +99,9 @@ var imageUploadPopup = document.querySelector(Selectors.IMAGE_UPLOAD_POPUP);
 var imageUploadForm = document.querySelector(Selectors.IMAGE_UPLOAD_FORM);
 var imageUploadInput = document.querySelector(Selectors.IMAGE_UPLOAD_INPUT);
 var imageUploadCloseButton = imageUploadPopup.querySelector(Selectors.IMAGE_UPLOAD_POPUP_CLOSE_BUTTON);
+var imageUploadPreview = imageUploadPopup.querySelector(Selectors.IMAGE_UPLOAD_PREVEW);
+var effectsPreivewList = imageUploadPopup.querySelector(Selectors.EFFECTS_PREVIEW_LIST);
+var effectsPreivewItem = imageUploadPopup.querySelectorAll(Selectors.EFFECTS_PREVIEW_ITEM);
 var effectLevelPin = imageUploadPopup.querySelector(Selectors.EFFECT_LEVEL_PIN);
 // var effectLevelValue = imageUploadPopup.querySelector(Selectors.EFFECT_LEVEL_VALUE);
 // var effectLevelDepth = imageUploadPopup.querySelector(Selectors.EFFECT_LEVEL_DEPTH);
@@ -139,7 +172,6 @@ picturesContainer.appendChild(fragment);
 socialCommentCount.classList.add(VISUALLY_HIDDEN_CLASS);
 commentLoader.classList.add(VISUALLY_HIDDEN_CLASS);
 
-
 var openUploadPopup = function () {
   imageUploadPopup.classList.remove(HIDE_CLASS);
   document.addEventListener('keydown', onPopupKeyPress);
@@ -153,12 +185,15 @@ var closeUploadPopup = function () {
 
 imageUploadInput.addEventListener('change', openUploadPopup);
 imageUploadCloseButton.addEventListener('click', closeUploadPopup);
+openUploadPopup();
 
+// effectLevelPin.addEventListener('mouseup', function () {
+//   // effectLevelPin.style.left = '60%';
+//   // effectLevelDepth.style.width = '60%';
+//   var leftPinMargin = effectLevelPin.offsetLeft;
+//   console.log(leftPinMargin);
 
-effectLevelPin.addEventListener('mouseup', function () {
-  // effectLevelPin.style.left = '60%';
-  // effectLevelDepth.style.width = '60%';
-});
+// });
 
 var onPopupKeyPress = function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
@@ -192,3 +227,23 @@ var smallPictureHandler = function (n) {
 for (i = 0; i < picturesList.length; i++) {
   smallPictureHandler(i);
 }
+
+
+effectsPreivewList.addEventListener('click', function () {
+  if (event.target.tagName === 'SPAN') {
+    var filterClassList = event.target.classList;
+    if (filterClassList[1] === FILTERS[1].className) {
+      imageUploadPreview.style.filter = FILTERS[1].filer;
+    } else if (filterClassList[1] === FILTERS[2].className) {
+      imageUploadPreview.style.filter = FILTERS[2].filer;
+    } else if (filterClassList[1] === FILTERS[3].className) {
+      imageUploadPreview.style.filter = FILTERS[3].filer;
+    } else if (filterClassList[1] === FILTERS[4].className) {
+      imageUploadPreview.style.filter = FILTERS[4].filer;
+    } else if (filterClassList[1] === FILTERS[5].className) {
+      imageUploadPreview.style.filter = FILTERS[5].filer;
+    } else if (filterClassList[1] === FILTERS[0].className) {
+      imageUploadPreview.style.filter = FILTERS[0].filer;
+    }
+  }
+});
