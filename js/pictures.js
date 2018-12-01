@@ -104,6 +104,7 @@ var imageUploadPreview = imageUploadPopup.querySelector(Selectors.IMAGE_UPLOAD_P
 var effectsPreivewList = imageUploadPopup.querySelector(Selectors.EFFECTS_PREVIEW_LIST);
 var effectLevelLine = imageUploadPopup.querySelector(Selectors.EFFECT_LEVEL_LINE);
 var effectLevelPin = imageUploadPopup.querySelector(Selectors.EFFECT_LEVEL_PIN);
+var effeectLevelValueInput = imageUploadPopup.querySelector(Selectors.EFFECT_LEVEL_VALUE);
 
 var photosInfoList = [];
 
@@ -154,7 +155,7 @@ var renderBigUserPictureComments = function (n, picture) {
   return newElement;
 };
 
-var fillBigUserPicture = function (picture) {
+var renderBigUserPicture = function (picture) {
   socialCommentsList.innerHTML = '';
   bigPicure.querySelector(Selectors.BIG_PICTURE_IMG).src = picture.url;
   bigPicure.querySelector(Selectors.BIG_PICTURE_LIKES_COUNT).textContent = picture.likes;
@@ -184,12 +185,11 @@ var closeUploadPopup = function () {
 
 imageUploadInput.addEventListener('change', openUploadPopup);
 imageUploadCloseButton.addEventListener('click', closeUploadPopup);
-openUploadPopup();
 
 effectLevelPin.addEventListener('mouseup', function () {
   var leftPinMargin = effectLevelPin.offsetLeft;
   var barWidth = effectLevelLine.offsetWidth;
-  var filterDepthValue = leftPinMargin * 100 / barWidth;
+  effeectLevelValueInput.value = leftPinMargin * 100 / barWidth;
 });
 
 var onPopupKeyPress = function (evt) {
@@ -214,33 +214,24 @@ bigPictureClose.addEventListener('click', closeBigPicture);
 
 var picturesList = picturesContainer.querySelectorAll(Selectors.PICTURES_LIST_ITEM);
 
-var smallPictureHandler = function (n) {
+var findSmallPictureInfo = function (n) {
   picturesList[n].addEventListener('click', function () {
-    fillBigUserPicture(photosInfoList[n]);
+    renderBigUserPicture(photosInfoList[n]);
     openBigPicture();
   });
 };
 
 for (i = 0; i < picturesList.length; i++) {
-  smallPictureHandler(i);
+  findSmallPictureInfo(i);
 }
-
 
 effectsPreivewList.addEventListener('click', function () {
   if (event.target.tagName === 'SPAN') {
-    var filterClassList = event.target.classList;
-    if (filterClassList[1] === FILTERS[1].className) {
-      imageUploadPreview.style.filter = FILTERS[1].filter;
-    } else if (filterClassList[1] === FILTERS[2].className) {
-      imageUploadPreview.style.filter = FILTERS[2].filter;
-    } else if (filterClassList[1] === FILTERS[3].className) {
-      imageUploadPreview.style.filter = FILTERS[3].filter;
-    } else if (filterClassList[1] === FILTERS[4].className) {
-      imageUploadPreview.style.filter = FILTERS[4].filter;
-    } else if (filterClassList[1] === FILTERS[5].className) {
-      imageUploadPreview.style.filter = FILTERS[5].filter;
-    } else if (filterClassList[1] === FILTERS[0].className) {
-      imageUploadPreview.style.filter = FILTERS[0].filter;
+    var filterClass = event.target.classList[1];
+    for (i = 0; i < FILTERS.length; i++) {
+      if (filterClass === FILTERS[i].className) {
+        imageUploadPreview.style.filter = FILTERS[i].filter;
+      }
     }
   }
 });
