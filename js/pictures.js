@@ -21,27 +21,27 @@ var DESCRIPTIONS = [
 var FILTERS = [
   {
     className: 'effects__preview--none',
-    filer: ''
+    filter: ''
   },
   {
     className: 'effects__preview--chrome',
-    filer: 'grayscale(100%)'
+    filter: 'grayscale(100%)'
   },
   {
     className: 'effects__preview--sepia',
-    filer: 'sepia(100%)'
+    filter: 'sepia(100%)'
   },
   {
     className: 'effects__preview--marvin',
-    filer: 'invert(100%)'
+    filter: 'invert(100%)'
   },
   {
     className: 'effects__preview--phobos',
-    filer: 'blur(5px)'
+    filter: 'blur(5px)'
   },
   {
     className: 'effects__preview--heat',
-    filer: 'brightness(3)'
+    filter: 'brightness(3)'
   }
 ];
 
@@ -102,11 +102,8 @@ var imageUploadInput = document.querySelector(Selectors.IMAGE_UPLOAD_INPUT);
 var imageUploadCloseButton = imageUploadPopup.querySelector(Selectors.IMAGE_UPLOAD_POPUP_CLOSE_BUTTON);
 var imageUploadPreview = imageUploadPopup.querySelector(Selectors.IMAGE_UPLOAD_PREVEW);
 var effectsPreivewList = imageUploadPopup.querySelector(Selectors.EFFECTS_PREVIEW_LIST);
-// var effectsPreivewItem = imageUploadPopup.querySelectorAll(Selectors.EFFECTS_PREVIEW_ITEM);
 var effectLevelLine = imageUploadPopup.querySelector(Selectors.EFFECT_LEVEL_LINE);
 var effectLevelPin = imageUploadPopup.querySelector(Selectors.EFFECT_LEVEL_PIN);
-// var effectLevelValue = imageUploadPopup.querySelector(Selectors.EFFECT_LEVEL_VALUE);
-// var effectLevelDepth = imageUploadPopup.querySelector(Selectors.EFFECT_LEVEL_DEPTH);
 
 var photosInfoList = [];
 
@@ -233,17 +230,17 @@ effectsPreivewList.addEventListener('click', function () {
   if (event.target.tagName === 'SPAN') {
     var filterClassList = event.target.classList;
     if (filterClassList[1] === FILTERS[1].className) {
-      imageUploadPreview.style.filter = FILTERS[1].filer;
+      imageUploadPreview.style.filter = FILTERS[1].filter;
     } else if (filterClassList[1] === FILTERS[2].className) {
-      imageUploadPreview.style.filter = FILTERS[2].filer;
+      imageUploadPreview.style.filter = FILTERS[2].filter;
     } else if (filterClassList[1] === FILTERS[3].className) {
-      imageUploadPreview.style.filter = FILTERS[3].filer;
+      imageUploadPreview.style.filter = FILTERS[3].filter;
     } else if (filterClassList[1] === FILTERS[4].className) {
-      imageUploadPreview.style.filter = FILTERS[4].filer;
+      imageUploadPreview.style.filter = FILTERS[4].filter;
     } else if (filterClassList[1] === FILTERS[5].className) {
-      imageUploadPreview.style.filter = FILTERS[5].filer;
+      imageUploadPreview.style.filter = FILTERS[5].filter;
     } else if (filterClassList[1] === FILTERS[0].className) {
-      imageUploadPreview.style.filter = FILTERS[0].filer;
+      imageUploadPreview.style.filter = FILTERS[0].filter;
     }
   }
 });
