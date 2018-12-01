@@ -181,6 +181,7 @@ var closeUploadPopup = function () {
   imageUploadPopup.classList.add(HIDE_CLASS);
   document.removeEventListener('keydown', onPopupKeyPress);
   imageUploadForm.reset();
+  imageUploadPreview.style.filter = FILTERS[0].filter;
 };
 
 imageUploadInput.addEventListener('change', openUploadPopup);
@@ -207,7 +208,6 @@ var openBigPicture = function () {
 var closeBigPicture = function () {
   bigPicure.classList.add(HIDE_CLASS);
   document.removeEventListener('keydown', onPopupKeyPress);
-
 };
 
 bigPictureClose.addEventListener('click', closeBigPicture);
