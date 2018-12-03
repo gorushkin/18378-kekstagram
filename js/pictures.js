@@ -52,6 +52,10 @@ var COMMENTS_COUNT = 5;
 var HIDE_CLASS = 'hidden';
 var VISUALLY_HIDDEN_CLASS = 'visually-hidden';
 var ESC_KEYCODE = 27;
+var DEFAULT_SCALE_CONTOL_VALUE = 100;
+var SCALE_CONTOL_VALUE_STEP = 25;
+var SCALE_CONTOL_VALUE_MIN = 25;
+var SCALE_CONTOL_VALUE_MAX = 100;
 
 var Selectors = {
   PICTURES_LIST: '.pictures',
@@ -83,7 +87,12 @@ var Selectors = {
   PICTURES_LIST_ITEM: '.picture',
   EFFECTS_PREVIEW_LIST: '.effects__list',
   EFFECTS_PREVIEW_ITEM: '.effects__preview',
-  EFFECT_LEVEL_LINE: '.effect-level__line'
+  EFFECT_LEVEL_LINE: '.effect-level__line',
+  SCALE_CONTROL_SMALLER: '.scale__control--smaller',
+  SCALE_CONTROL_BIGGER: '.scale__control--bigger',
+  SCALE_CONTROL_VALUE: '.scale__control--value',
+  TEXT_HASHTAGS: '.text__hashtags',
+  IMG_UPLOAD_SUBMIT: '.img-upload__submit'
 };
 
 var pictureTemplate =
@@ -105,6 +114,11 @@ var effectsPreivewList = imageUploadPopup.querySelector(Selectors.EFFECTS_PREVIE
 var effectLevelLine = imageUploadPopup.querySelector(Selectors.EFFECT_LEVEL_LINE);
 var effectLevelPin = imageUploadPopup.querySelector(Selectors.EFFECT_LEVEL_PIN);
 var effeectLevelValueInput = imageUploadPopup.querySelector(Selectors.EFFECT_LEVEL_VALUE);
+var scaleControlSmaller = imageUploadPopup.querySelector(Selectors.SCALE_CONTROL_SMALLER);
+var scaleControlBigger = imageUploadPopup.querySelector(Selectors.SCALE_CONTROL_BIGGER);
+var scaleControlValue = imageUploadPopup.querySelector(Selectors.SCALE_CONTROL_VALUE);
+var textHashtags = imageUploadPopup.querySelector(Selectors.TEXT_HASHTAGS);
+var imgUploadSubmitButton = imageUploadPopup.querySelector(Selectors.IMG_UPLOAD_SUBMIT);
 
 var photosInfoList = [];
 
@@ -175,6 +189,8 @@ commentLoader.classList.add(VISUALLY_HIDDEN_CLASS);
 var openUploadPopup = function () {
   imageUploadPopup.classList.remove(HIDE_CLASS);
   document.addEventListener('keydown', onPopupKeyPress);
+  scaleControlValue.value = DEFAULT_SCALE_CONTOL_VALUE;
+  imageUploadPreview.style.transform = 'scale(' + DEFAULT_SCALE_CONTOL_VALUE / 100 + ')';
 };
 
 var closeUploadPopup = function () {
@@ -187,11 +203,6 @@ var closeUploadPopup = function () {
 imageUploadInput.addEventListener('change', openUploadPopup);
 imageUploadCloseButton.addEventListener('click', closeUploadPopup);
 
-effectLevelPin.addEventListener('mouseup', function () {
-  var leftPinMargin = effectLevelPin.offsetLeft;
-  var barWidth = effectLevelLine.offsetWidth;
-  effeectLevelValueInput.value = leftPinMargin * 100 / barWidth;
-});
 
 var onPopupKeyPress = function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
@@ -234,4 +245,59 @@ effectsPreivewList.addEventListener('click', function () {
       }
     }
   }
+});
+
+
+openUploadPopup();
+
+scaleControlSmaller.addEventListener('click', function () {
+  if (scaleControlValue.value > SCALE_CONTOL_VALUE_MIN) {
+    scaleControlValue.value -= SCALE_CONTOL_VALUE_STEP;
+    imageUploadPreview.style.transform = 'scale(' + scaleControlValue.value / 100 + ')';
+  }
+});
+
+scaleControlBigger.addEventListener('click', function () {
+  if (scaleControlValue.value < SCALE_CONTOL_VALUE_MAX) {
+    scaleControlValue.value = SCALE_CONTOL_VALUE_STEP + Number(scaleControlValue.value);
+    imageUploadPreview.style.transform = 'scale(' + scaleControlValue.value / 100 + ')';
+  }
+});
+
+effectLevelPin.addEventListener('mouseup', function () {
+  var leftPinMargin = effectLevelPin.offsetLeft;
+  var barWidth = effectLevelLine.offsetWidth;
+  effeectLevelValueInput.value = leftPinMargin * 100 / barWidth;
+});
+
+var generateHashTagsCollection = function (line) {
+  var array = line.split('#');
+  for (i = 0; i < array.length; i++) {
+    if (array[i].length > 1) {
+      array[i] = '#' + array[i];
+    }
+  }
+  return array;
+};
+
+imgUploadSubmitButton.addEventListener('click', function (evt) {
+  evt.preventDefault();
+  var hashArray = generateHashTagsCollection(textHashtags.value);
+  var hashSringErroeFlag = false;
+  console.log(hashArray);
+
+  // if (hashString.length !== 0) {
+  //   hashArray = hashString.split('#');
+  //   for (i = 0; i < hashArray.length; i++) {
+  //     console.log(hashArray[i]);
+  //     if (hashArray[i].length > 19) {
+  //       hashSringErroeFlag = true;
+  //       console.log(hashArray[i]);
+  //     }
+  //   }
+  // } else {
+  //   console.log('empty');
+
+  // }
+
 });
