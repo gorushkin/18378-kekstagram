@@ -18,6 +18,33 @@ var DESCRIPTIONS = [
   'Вот это тачка!'
 ];
 
+var HASHTAG_ERRORS_CODE = [
+  {
+    code: 0,
+    definition: 'Все корректно'
+  },
+  {
+    code: 1,
+    definition: 'Хэш-тег должен начинаться с символа #'
+  },
+  {
+    code: 2,
+    definition: 'Хеш-тег не может состоять только из одной решётки'
+  },
+  {
+    code: 3,
+    definition: 'Один и тот же хэш-тег не может быть использован дважды'
+  },
+  {
+    code: 4,
+    definition: 'Нельзя указать больше пяти хэш-тегов'
+  },
+  {
+    code: 5,
+    definition: 'Максимальная длина одного хэш-тега 20 символов, включая решётку'
+  }
+];
+
 var FILTERS = [
   {
     className: 'effects__preview--none',
@@ -270,34 +297,30 @@ effectLevelPin.addEventListener('mouseup', function () {
   effeectLevelValueInput.value = leftPinMargin * 100 / barWidth;
 });
 
-var generateHashTagsCollection = function (line) {
-  var array = line.split('#');
-  for (i = 0; i < array.length; i++) {
-    if (array[i].length > 1) {
-      array[i] = '#' + array[i];
+var checkHashTagsCollection = function (line) {
+  if (line.length > 5) {
+    return 4;
+  }
+  for (i = 0; i < line.length; i++) {
+    for (var j = 0; j < line.length; j++) {
+      if (line[i] === line[j] && i !== j) {
+        return 3;
+      }
+    }
+    if (line[i][0] !== '#') {
+      return 1;
+    } else if (line[i].length > 20) {
+      return 5;
+    } else if (line[i].length === 1 && line[i][0] === '#') {
+      return 2;
     }
   }
-  return array;
+  return 0;
 };
 
 imgUploadSubmitButton.addEventListener('click', function (evt) {
   evt.preventDefault();
-  var hashArray = generateHashTagsCollection(textHashtags.value);
-  var hashSringErroeFlag = false;
-  console.log(hashArray);
-
-  // if (hashString.length !== 0) {
-  //   hashArray = hashString.split('#');
-  //   for (i = 0; i < hashArray.length; i++) {
-  //     console.log(hashArray[i]);
-  //     if (hashArray[i].length > 19) {
-  //       hashSringErroeFlag = true;
-  //       console.log(hashArray[i]);
-  //     }
-  //   }
-  // } else {
-  //   console.log('empty');
-
-  // }
-
+  var array = textHashtags.value.toLowerCase().split(' ');
+  var errorCode = checkHashTagsCollection(array);
+  console.log(HASHTAG_ERRORS_CODE[errorCode].definition);
 });
