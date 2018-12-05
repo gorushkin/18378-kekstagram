@@ -45,6 +45,8 @@ var HASHTAG_ERRORS_CODE = [
   }
 ];
 
+var COMMENT_INPUT_ERROR_MESSAGE = 'Длина комментария не может составлять больше 140 символов';
+
 var FILTERS = [
   {
     className: 'effects__preview--none',
@@ -328,7 +330,7 @@ hashtagsInput.addEventListener('input', function (hashtagEvt) {
 commentInput.addEventListener('input', function (commentEvt) {
   commentEvt.preventDefault();
   if (commentInput.value.length > 140) {
-    commentInput.setCustomValidity('Длина комментария не может составлять больше 140 символов');
+    commentInput.setCustomValidity(COMMENT_INPUT_ERROR_MESSAGE);
   } else {
     commentInput.setCustomValidity('');
   }
