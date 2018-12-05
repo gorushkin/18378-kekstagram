@@ -118,8 +118,9 @@ var Selectors = {
   SCALE_CONTROL_SMALLER: '.scale__control--smaller',
   SCALE_CONTROL_BIGGER: '.scale__control--bigger',
   SCALE_CONTROL_VALUE: '.scale__control--value',
-  TEXT_HASHTAGS: '.text__hashtags',
-  IMG_UPLOAD_SUBMIT: '.img-upload__submit'
+  IMAGE_UPLOAD_HASHTAGS: '.text__hashtags',
+  IMG_UPLOAD_SUBMIT: '.img-upload__submit',
+  IMG_UPLOAD_COMMENT: '.text__description'
 };
 
 var pictureTemplate =
@@ -144,8 +145,8 @@ var effeectLevelValueInput = imageUploadPopup.querySelector(Selectors.EFFECT_LEV
 var scaleControlSmaller = imageUploadPopup.querySelector(Selectors.SCALE_CONTROL_SMALLER);
 var scaleControlBigger = imageUploadPopup.querySelector(Selectors.SCALE_CONTROL_BIGGER);
 var scaleControlValue = imageUploadPopup.querySelector(Selectors.SCALE_CONTROL_VALUE);
-var hashtagsInput = imageUploadPopup.querySelector(Selectors.TEXT_HASHTAGS);
-var imgUploadSubmitButton = imageUploadPopup.querySelector(Selectors.IMG_UPLOAD_SUBMIT);
+var hashtagsInput = imageUploadPopup.querySelector(Selectors.IMAGE_UPLOAD_HASHTAGS);
+var commentInput = imageUploadPopup.querySelector(Selectors.IMG_UPLOAD_COMMENT);
 
 var photosInfoList = [];
 
@@ -232,7 +233,9 @@ imageUploadCloseButton.addEventListener('click', closeUploadPopup);
 
 
 var onPopupKeyPress = function (evt) {
-  if (evt.keyCode === ESC_KEYCODE) {
+  if (evt.keyCode === ESC_KEYCODE
+    && evt.target.tagName !== 'INPUT'
+    && evt.target.tagName !== 'TEXTAREA') {
     closeBigPicture();
     closeUploadPopup();
   }
@@ -252,7 +255,7 @@ bigPictureClose.addEventListener('click', closeBigPicture);
 
 var picturesList = picturesContainer.querySelectorAll(Selectors.PICTURES_LIST_ITEM);
 
-var findSmallPictureInfo = function (n) {
+var openThumbnailImage = function (n) {
   picturesList[n].addEventListener('click', function () {
     renderBigUserPicture(photosInfoList[n]);
     openBigPicture();
@@ -260,7 +263,7 @@ var findSmallPictureInfo = function (n) {
 };
 
 for (i = 0; i < picturesList.length; i++) {
-  findSmallPictureInfo(i);
+  openThumbnailImage(i);
 }
 
 effectsPreivewList.addEventListener('click', function () {
@@ -273,9 +276,6 @@ effectsPreivewList.addEventListener('click', function () {
     }
   }
 });
-
-
-openUploadPopup();
 
 scaleControlSmaller.addEventListener('click', function () {
   if (scaleControlValue.value > SCALE_CONTOL_VALUE_MIN) {
@@ -318,17 +318,19 @@ var checkHashTagsCollection = function (line) {
   return 0;
 };
 
-// imgUploadSubmitButton.addEventListener('click', function (evt) {
-//   evt.preventDefault();
-//   var array = hashtagsInput.value.toLowerCase().split(' ');
-//   var errorCode = checkHashTagsCollection(array);
-//   console.log(HASHTAG_ERRORS_CODE[errorCode].definition);
-// });
-
-hashtagsInput.addEventListener('input', function (evt) {
-  evt.preventDefault();
+hashtagsInput.addEventListener('input', function (hashtagEvt) {
+  hashtagEvt.preventDefault();
   var array = hashtagsInput.value.toLowerCase().split(' ');
   var errorCode = checkHashTagsCollection(array);
-  console.log(HASHTAG_ERRORS_CODE[errorCode].definition);
   hashtagsInput.setCustomValidity(HASHTAG_ERRORS_CODE[errorCode].definition);
 });
+
+commentInput.addEventListener('input', function (commentEvt) {
+  commentEvt.preventDefault();
+  if (commentInput.value.length > 140) {
+    commentInput.setCustomValidity('Длина комментария не может составлять больше 140 символов');
+  } else {
+    commentInput.setCustomValidity('');
+  }
+});
+
