@@ -21,7 +21,7 @@ var DESCRIPTIONS = [
 var HASHTAG_ERRORS_CODE = [
   {
     code: 0,
-    definition: 'Все корректно'
+    definition: ''
   },
   {
     code: 1,
@@ -144,7 +144,7 @@ var effeectLevelValueInput = imageUploadPopup.querySelector(Selectors.EFFECT_LEV
 var scaleControlSmaller = imageUploadPopup.querySelector(Selectors.SCALE_CONTROL_SMALLER);
 var scaleControlBigger = imageUploadPopup.querySelector(Selectors.SCALE_CONTROL_BIGGER);
 var scaleControlValue = imageUploadPopup.querySelector(Selectors.SCALE_CONTROL_VALUE);
-var textHashtags = imageUploadPopup.querySelector(Selectors.TEXT_HASHTAGS);
+var hashtagsInput = imageUploadPopup.querySelector(Selectors.TEXT_HASHTAGS);
 var imgUploadSubmitButton = imageUploadPopup.querySelector(Selectors.IMG_UPLOAD_SUBMIT);
 
 var photosInfoList = [];
@@ -318,9 +318,17 @@ var checkHashTagsCollection = function (line) {
   return 0;
 };
 
-imgUploadSubmitButton.addEventListener('click', function (evt) {
+// imgUploadSubmitButton.addEventListener('click', function (evt) {
+//   evt.preventDefault();
+//   var array = hashtagsInput.value.toLowerCase().split(' ');
+//   var errorCode = checkHashTagsCollection(array);
+//   console.log(HASHTAG_ERRORS_CODE[errorCode].definition);
+// });
+
+hashtagsInput.addEventListener('input', function (evt) {
   evt.preventDefault();
-  var array = textHashtags.value.toLowerCase().split(' ');
+  var array = hashtagsInput.value.toLowerCase().split(' ');
   var errorCode = checkHashTagsCollection(array);
   console.log(HASHTAG_ERRORS_CODE[errorCode].definition);
+  hashtagsInput.setCustomValidity(HASHTAG_ERRORS_CODE[errorCode].definition);
 });
