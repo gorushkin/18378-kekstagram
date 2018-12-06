@@ -89,6 +89,8 @@ var MAX_HASHTAGS_COUNT = 5;
 var HASHTAG_FIRST_SYMBOL = '#';
 var COMMENT_MAX_LENGTH = 140;
 var HASHTAG_MAX_LENGTH = 20;
+var INCREASE = 1;
+var DECREASE = -1;
 
 var Selectors = {
   PICTURES_LIST: '.pictures',
@@ -283,18 +285,19 @@ effectsPreivewList.addEventListener('click', function () {
   }
 });
 
+var changeScaleUploadImage = function (sign) {
+  scaleControlValue.value = Math.max(
+      SCALE_CONTROL_VALUE_MIN, Math.min(
+          SCALE_CONTROL_VALUE_MAX, SCALE_CONTOL_VALUE_STEP * sign + Number(scaleControlValue.value)));
+  imageUploadPreview.style.transform = 'scale(' + scaleControlValue.value / 100 + ')';
+};
+
 scaleControlSmaller.addEventListener('click', function () {
-  if (scaleControlValue.value > SCALE_CONTROL_VALUE_MIN) {
-    scaleControlValue.value = Number(scaleControlValue.value) - SCALE_CONTOL_VALUE_STEP;
-    imageUploadPreview.style.transform = 'scale(' + scaleControlValue.value / 100 + ')';
-  }
+  changeScaleUploadImage(DECREASE);
 });
 
 scaleControlBigger.addEventListener('click', function () {
-  if (scaleControlValue.value < SCALE_CONTROL_VALUE_MAX) {
-    scaleControlValue.value = Number(scaleControlValue.value) + SCALE_CONTOL_VALUE_STEP;
-    imageUploadPreview.style.transform = 'scale(' + scaleControlValue.value / 100 + ')';
-  }
+  changeScaleUploadImage(INCREASE);
 });
 
 effectLevelPin.addEventListener('mouseup', function () {
