@@ -20,28 +20,28 @@ var DESCRIPTIONS = [
 
 var HASHTAG_ERRORS_CODE = [
   {
-    code: 0,
-    definition: ''
+    errorCode: 0,
+    errorDefinition: ''
   },
   {
-    code: 1,
-    definition: 'Хэш-тег должен начинаться с символа #'
+    errorCode: 1,
+    errorDefinition: 'Хэш-тег должен начинаться с символа #'
   },
   {
-    code: 2,
-    definition: 'Хеш-тег не может состоять только из одной решётки'
+    errorCode: 2,
+    errorDefinition: 'Хеш-тег не может состоять только из одной решётки'
   },
   {
-    code: 3,
-    definition: 'Один и тот же хэш-тег не может быть использован дважды'
+    errorCode: 3,
+    errorDefinition: 'Один и тот же хэш-тег не может быть использован дважды'
   },
   {
-    code: 4,
-    definition: 'Нельзя указать больше пяти хэш-тегов'
+    errorCode: 4,
+    errorDefinition: 'Нельзя указать больше пяти хэш-тегов'
   },
   {
-    code: 5,
-    definition: 'Максимальная длина одного хэш-тега 20 символов, включая решётку'
+    errorCode: 5,
+    errorDefinition: 'Максимальная длина одного хэш-тега 20 символов, включая решётку'
   }
 ];
 
@@ -83,8 +83,12 @@ var VISUALLY_HIDDEN_CLASS = 'visually-hidden';
 var ESC_KEYCODE = 27;
 var DEFAULT_SCALE_CONTOL_VALUE = 100;
 var SCALE_CONTOL_VALUE_STEP = 25;
-var SCALE_CONTOL_VALUE_MIN = 25;
-var SCALE_CONTOL_VALUE_MAX = 100;
+var SCALE_CONTROL_VALUE_MIN = 25;
+var SCALE_CONTROL_VALUE_MAX = 100;
+var MAX_HASHTAGS_COUNT = 5;
+var HASHTAG_FIRST_SYMBOL = '#';
+var COMMENT_MAX_LENGTH = 140;
+var HASHTAG_MAX_LENGTH = 20;
 
 var Selectors = {
   PICTURES_LIST: '.pictures',
@@ -280,15 +284,15 @@ effectsPreivewList.addEventListener('click', function () {
 });
 
 scaleControlSmaller.addEventListener('click', function () {
-  if (scaleControlValue.value > SCALE_CONTOL_VALUE_MIN) {
-    scaleControlValue.value -= SCALE_CONTOL_VALUE_STEP;
+  if (scaleControlValue.value > SCALE_CONTROL_VALUE_MIN) {
+    scaleControlValue.value = Number(scaleControlValue.value) - SCALE_CONTOL_VALUE_STEP;
     imageUploadPreview.style.transform = 'scale(' + scaleControlValue.value / 100 + ')';
   }
 });
 
 scaleControlBigger.addEventListener('click', function () {
-  if (scaleControlValue.value < SCALE_CONTOL_VALUE_MAX) {
-    scaleControlValue.value = SCALE_CONTOL_VALUE_STEP + Number(scaleControlValue.value);
+  if (scaleControlValue.value < SCALE_CONTROL_VALUE_MAX) {
+    scaleControlValue.value = Number(scaleControlValue.value) + SCALE_CONTOL_VALUE_STEP;
     imageUploadPreview.style.transform = 'scale(' + scaleControlValue.value / 100 + ')';
   }
 });
@@ -300,36 +304,36 @@ effectLevelPin.addEventListener('mouseup', function () {
 });
 
 var checkHashTagsCollection = function (line) {
-  if (line.length > 5) {
-    return 4;
+  if (line.length > MAX_HASHTAGS_COUNT) {
+    return HASHTAG_ERRORS_CODE[4].errorCode;
   }
   for (i = 0; i < line.length; i++) {
     for (var j = 0; j < line.length; j++) {
       if (line[i] === line[j] && i !== j) {
-        return 3;
+        return HASHTAG_ERRORS_CODE[3].errorCode;
       }
     }
-    if (line[i][0] !== '#') {
-      return 1;
-    } else if (line[i].length > 20) {
-      return 5;
-    } else if (line[i].length === 1 && line[i][0] === '#') {
-      return 2;
+    if (line[i][0] !== HASHTAG_FIRST_SYMBOL) {
+      return HASHTAG_ERRORS_CODE[1].errorCode;
+    } else if (line[i].length > HASHTAG_MAX_LENGTH) {
+      return HASHTAG_ERRORS_CODE[5].errorCode;
+    } else if (line[i].length === 1 && line[i][0] === HASHTAG_FIRST_SYMBOL) {
+      return HASHTAG_ERRORS_CODE[2].errorCode;
     }
   }
-  return 0;
+  return HASHTAG_ERRORS_CODE[0].errorCode;
 };
 
 hashtagsInput.addEventListener('input', function (hashtagEvt) {
   hashtagEvt.preventDefault();
   var array = hashtagsInput.value.toLowerCase().split(' ');
   var errorCode = checkHashTagsCollection(array);
-  hashtagsInput.setCustomValidity(HASHTAG_ERRORS_CODE[errorCode].definition);
+  hashtagsInput.setCustomValidity(HASHTAG_ERRORS_CODE[errorCode].errorDefinition);
 });
 
 commentInput.addEventListener('input', function (commentEvt) {
   commentEvt.preventDefault();
-  if (commentInput.value.length > 140) {
+  if (commentInput.value.length > COMMENT_MAX_LENGTH) {
     commentInput.setCustomValidity(COMMENT_INPUT_ERROR_MESSAGE);
   } else {
     commentInput.setCustomValidity('');
