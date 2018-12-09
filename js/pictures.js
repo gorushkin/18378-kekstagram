@@ -18,34 +18,7 @@ var DESCRIPTIONS = [
   'Вот это тачка!'
 ];
 
-var HASHTAG_ERRORS_CODE = [
-  {
-    errorCode: 0,
-    errorDefinition: ''
-  },
-  {
-    errorCode: 1,
-    errorDefinition: 'Хэш-тег должен начинаться с символа #'
-  },
-  {
-    errorCode: 2,
-    errorDefinition: 'Хеш-тег не может состоять только из одной решётки'
-  },
-  {
-    errorCode: 3,
-    errorDefinition: 'Один и тот же хэш-тег не может быть использован дважды'
-  },
-  {
-    errorCode: 4,
-    errorDefinition: 'Нельзя указать больше пяти хэш-тегов'
-  },
-  {
-    errorCode: 5,
-    errorDefinition: 'Максимальная длина одного хэш-тега 20 символов, включая решётку'
-  }
-];
 
-var COMMENT_INPUT_ERROR_MESSAGE = 'Длина комментария не может составлять больше 140 символов';
 
 var FILTERS = [
   {
@@ -81,16 +54,44 @@ var COMMENTS_COUNT = 5;
 var HIDE_CLASS = 'hidden';
 var VISUALLY_HIDDEN_CLASS = 'visually-hidden';
 var ESC_KEYCODE = 27;
-var DEFAULT_SCALE_CONTOL_VALUE = 100;
-var SCALE_CONTOL_VALUE_STEP = 25;
+var DEFAULT_SCALE_CONTROL_VALUE = 100;
+var SCALE_CONTROL_VALUE_STEP = 25;
 var SCALE_CONTROL_VALUE_MIN = 25;
 var SCALE_CONTROL_VALUE_MAX = 100;
 var MAX_HASHTAGS_COUNT = 5;
-var HASHTAG_FIRST_SYMBOL = '#';
 var COMMENT_MAX_LENGTH = 140;
 var HASHTAG_MAX_LENGTH = 20;
+var HASHTAG_FIRST_SYMBOL = '#';
 var INCREASE = 1;
 var DECREASE = -1;
+var COMMENT_INPUT_ERROR_MESSAGE = 'Длина комментария не может составлять больше ' + COMMENT_MAX_LENGTH + ' символов';
+
+var HASHTAG_ERRORS_CODE = {
+  noErrors: {
+    errorCode: 0,
+    errorText: ''
+  },
+  startWithHash: {
+    errorCode: 1,
+    errorText: 'Хэш-тег должен начинаться с символа ' + HASHTAG_FIRST_SYMBOL
+  },
+  wrongContent: {
+    errorCode: 2,
+    errorText: 'Хеш-тег не может состоять только из одной решётки'
+  },
+  noRepeat: {
+    errorCode: 3,
+    errorText: 'Один и тот же хэш-тег не может быть использован дважды'
+  },
+  countLimit: {
+    errorCode: 4,
+    errorText: 'Нельзя указать больше пяти хэш-тегов'
+  },
+  lengthLimit: {
+    errorCode: 5,
+    errorText: 'Максимальная длина одного хэш-тега ' + HASHTAG_MAX_LENGTH + ' символов, включая решётку'
+  }
+};
 
 var Selectors = {
   PICTURES_LIST: '.pictures',
@@ -225,8 +226,8 @@ commentLoader.classList.add(VISUALLY_HIDDEN_CLASS);
 var openUploadPopup = function () {
   imageUploadPopup.classList.remove(HIDE_CLASS);
   document.addEventListener('keydown', onPopupKeyPress);
-  scaleControlValue.value = DEFAULT_SCALE_CONTOL_VALUE;
-  imageUploadPreview.style.transform = 'scale(' + DEFAULT_SCALE_CONTOL_VALUE / 100 + ')';
+  scaleControlValue.value = DEFAULT_SCALE_CONTROL_VALUE;
+  imageUploadPreview.style.transform = 'scale(' + DEFAULT_SCALE_CONTROL_VALUE / 100 + ')';
 };
 
 var closeUploadPopup = function () {
@@ -288,7 +289,7 @@ effectsPreivewList.addEventListener('click', function () {
 var changeScaleUploadImage = function (sign) {
   scaleControlValue.value = Math.max(
       SCALE_CONTROL_VALUE_MIN, Math.min(
-          SCALE_CONTROL_VALUE_MAX, SCALE_CONTOL_VALUE_STEP * sign + Number(scaleControlValue.value)));
+          SCALE_CONTROL_VALUE_MAX, SCALE_CONTROL_VALUE_STEP * sign + Number(scaleControlValue.value)));
   imageUploadPreview.style.transform = 'scale(' + scaleControlValue.value / 100 + ')';
 };
 
@@ -308,30 +309,29 @@ effectLevelPin.addEventListener('mouseup', function () {
 
 var checkHashTagsCollection = function (line) {
   if (line.length > MAX_HASHTAGS_COUNT) {
-    return HASHTAG_ERRORS_CODE[4].errorCode;
+    return HASHTAG_ERRORS_CODE.countLimit;
   }
   for (i = 0; i < line.length; i++) {
     for (var j = 0; j < line.length; j++) {
       if (line[i] === line[j] && i !== j) {
-        return HASHTAG_ERRORS_CODE[3].errorCode;
+        return HASHTAG_ERRORS_CODE.noRepeat;
       }
     }
     if (line[i][0] !== HASHTAG_FIRST_SYMBOL) {
-      return HASHTAG_ERRORS_CODE[1].errorCode;
+      return HASHTAG_ERRORS_CODE.startWithHash;
     } else if (line[i].length > HASHTAG_MAX_LENGTH) {
-      return HASHTAG_ERRORS_CODE[5].errorCode;
+      return HASHTAG_ERRORS_CODE.lengthLimit;
     } else if (line[i].length === 1 && line[i][0] === HASHTAG_FIRST_SYMBOL) {
-      return HASHTAG_ERRORS_CODE[2].errorCode;
+      return HASHTAG_ERRORS_CODE.wrongContent;
     }
   }
-  return HASHTAG_ERRORS_CODE[0].errorCode;
+  return HASHTAG_ERRORS_CODE.noErrors;
 };
 
 hashtagsInput.addEventListener('input', function (hashtagEvt) {
   hashtagEvt.preventDefault();
   var array = hashtagsInput.value.toLowerCase().split(' ');
-  var errorCode = checkHashTagsCollection(array);
-  hashtagsInput.setCustomValidity(HASHTAG_ERRORS_CODE[errorCode].errorDefinition);
+  hashtagsInput.setCustomValidity(checkHashTagsCollection(array).errorText);
 });
 
 commentInput.addEventListener('input', function (commentEvt) {
