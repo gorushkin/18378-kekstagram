@@ -18,8 +18,6 @@ var DESCRIPTIONS = [
   'Вот это тачка!'
 ];
 
-
-
 var FILTERS = [
   {
     className: 'effects__preview--none',
