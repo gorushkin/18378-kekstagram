@@ -299,12 +299,6 @@ scaleControlBigger.addEventListener('click', function () {
   changeScaleUploadImage(INCREASE);
 });
 
-effectLevelPin.addEventListener('mouseup', function () {
-  var leftPinMargin = effectLevelPin.offsetLeft;
-  var barWidth = effectLevelLine.offsetWidth;
-  effeectLevelValueInput.value = leftPinMargin * 100 / barWidth;
-});
-
 var checkHashTagsCollection = function (line) {
   if (line.length > MAX_HASHTAGS_COUNT) {
     return HASHTAG_ERRORS_CODE.countLimit;
@@ -341,3 +335,38 @@ commentInput.addEventListener('input', function (commentEvt) {
   }
 });
 
+
+openUploadPopup();
+
+effectLevelPin.addEventListener('mousedown', function (evt) {
+
+  var barWidth = effectLevelLine.offsetWidth;
+
+  var startCoords = evt.clientX;
+
+  var onMouseMove = function (moveEvt) {
+
+    var shift = startCoords - moveEvt.clientX;
+
+    startCoords = moveEvt.clientX;
+    if (effectLevelPin.offsetLeft - shift > barWidth) {
+      effectLevelPin.style.left = barWidth + 'px';
+    } else if (effectLevelPin.offsetLeft - shift < 0) {
+      effectLevelPin.style.left = '0px';
+    } else {
+      effectLevelPin.style.left = (effectLevelPin.offsetLeft - shift) + 'px';
+    }
+    effeectLevelValueInput.value = effectLevelPin.offsetLeft * 100 / barWidth;
+  };
+
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+  };
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
+
+});
