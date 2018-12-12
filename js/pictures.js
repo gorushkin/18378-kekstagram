@@ -273,14 +273,21 @@ for (i = 0; i < picturesList.length; i++) {
   openThumbnailImage(i);
 }
 
+// effectsPreivewList.addEventListener('click', function () {
+//   if (event.target.tagName === 'SPAN') {
+//     var filterClass = event.target.classList[1];
+//     for (i = 0; i < FILTERS.length; i++) {
+//       if (filterClass === FILTERS[i].className) {
+//         imageUploadPreview.style.filter = FILTERS[i].filter;
+//       }
+//     }
+//   }
+// });
+
 effectsPreivewList.addEventListener('click', function () {
   if (event.target.tagName === 'SPAN') {
     var filterClass = event.target.classList[1];
-    for (i = 0; i < FILTERS.length; i++) {
-      if (filterClass === FILTERS[i].className) {
-        imageUploadPreview.style.filter = FILTERS[i].filter;
-      }
-    }
+    imageUploadPreview.className = filterClass;
   }
 });
 
