@@ -21,27 +21,38 @@ var DESCRIPTIONS = [
 var FILTERS = [
   {
     className: 'effects__preview--none',
-    filter: ''
+    filter: '',
+    maxValue: 0
   },
   {
     className: 'effects__preview--chrome',
-    filter: 'grayscale(100%)'
+    filter: 'grayscale',
+    minValue: '0',
+    maxValue: '1'
   },
   {
     className: 'effects__preview--sepia',
-    filter: 'sepia(100%)'
+    filter: 'sepia',
+    minValue: '0',
+    maxValue: '1'
   },
   {
     className: 'effects__preview--marvin',
-    filter: 'invert(100%)'
+    filter: 'invert',
+    minValue: '0',
+    maxValue: '100%'
   },
   {
     className: 'effects__preview--phobos',
-    filter: 'blur(5px)'
+    filter: 'blur(5px)',
+    minValue: '0',
+    maxValue: '3'
   },
   {
     className: 'effects__preview--heat',
-    filter: 'brightness(3)'
+    filter: 'brightness(3)',
+    minValue: '1',
+    maxValue: '3'
   }
 ];
 
@@ -364,6 +375,21 @@ effectLevelPin.addEventListener('mousedown', function (evt) {
       effectLevelPin.style.left = (effectLevelPin.offsetLeft - shift) + 'px';
     }
     effeectLevelValueInput.value = effectLevelPin.offsetLeft * 100 / barWidth;
+    // if (imageUploadPreview.className !== 'effects__preview--none') {
+    //   console.log('going to change');
+    // }
+
+    for (i = 0; i < FILTERS.length; i++) {
+      if (imageUploadPreview.className === FILTERS[i].className) {
+        // imageUploadPreview.style.filter = FILTERS[i].filter;
+        console.log(FILTERS[i].filter);
+        imageUploadPreview.style.filter = FILTERS[i].filter + '(' + effeectLevelValueInput.value + '%)';
+
+
+
+      }
+    }
+
   };
 
   var onMouseUp = function (upEvt) {
