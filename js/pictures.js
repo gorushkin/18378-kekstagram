@@ -18,41 +18,42 @@ var DESCRIPTIONS = [
   'Вот это тачка!'
 ];
 
-var FILTERS = {
-  none: {
+var Filters = {
+  NONE: {
     className: 'effects__preview--none',
     filter: '',
-    maxValue: 0
+    maxValue: 0,
+    hideSlider: true
   },
-  chrome: {
+  CHROME: {
     className: 'effects__preview--chrome',
     filter: 'grayscale',
     minValue: '0',
     maxValue: '1',
     filterUnit: ''
   },
-  sepia: {
+  SEPIA: {
     className: 'effects__preview--sepia',
     filter: 'sepia',
     minValue: '0',
     maxValue: '1',
     filterUnit: ''
   },
-  marvin: {
+  MARVIN: {
     className: 'effects__preview--marvin',
     filter: 'invert',
     minValue: '0',
     maxValue: '100',
     filterUnit: '%'
   },
-  phobos: {
+  PHOBOS: {
     className: 'effects__preview--phobos',
     filter: 'blur',
     minValue: '0',
     maxValue: '3',
     filterUnit: 'px'
   },
-  heat: {
+  HEAT: {
     className: 'effects__preview--heat',
     filter: 'brightness',
     minValue: '1',
@@ -256,7 +257,7 @@ var closeUploadPopup = function () {
   imageUploadPopup.classList.add(HIDE_CLASS);
   document.removeEventListener('keydown', onPopupKeyPress);
   imageUploadForm.reset();
-  imageUploadPreview.style.filter = FILTERS.none;
+  imageUploadPreview.style.filter = Filters.NONE;
 };
 
 imageUploadInput.addEventListener('change', openUploadPopup);
@@ -300,7 +301,7 @@ for (i = 0; i < picturesList.length; i++) {
 effectsPreivewList.addEventListener('click', function () {
   if (event.target.tagName === 'SPAN') {
     var filterClass = event.target.classList[1];
-    effectLevelSlider.style.display = (filterClass === FILTERS.none.className) ? DISPLAY_NONE_CLASS : DISPLAY_BLOCK_CLASS;
+    effectLevelSlider.style.display = (filterClass === Filters.NONE.className) ? DISPLAY_NONE_CLASS : DISPLAY_BLOCK_CLASS;
     imageUploadPreview.className = filterClass;
     imageUploadPreview.style.filter = null;
     effectLevelPin.style.left = effectLevelLine.offsetWidth + DEFAULT_UNIT;
@@ -381,10 +382,10 @@ effectLevelPin.addEventListener('mousedown', function (evt) {
 
     effectLevelDepth.style.width = effeectLevelValueInput.value + RELATIVE_UNIT;
 
-    for (i in FILTERS) {
-      if (imageUploadPreview.className === FILTERS[i].className) {
-        var filterWidth = effeectLevelValueInput.value * FILTERS[i].maxValue / 100;
-        imageUploadPreview.style.filter = FILTERS[i].filter + '(' + filterWidth + FILTERS[i].filterUnit + ')';
+    for (i in Filters) {
+      if (imageUploadPreview.className === Filters[i].className) {
+        var filterWidth = effeectLevelValueInput.value * Filters[i].maxValue / 100;
+        imageUploadPreview.style.filter = Filters[i].filter + '(' + filterWidth + Filters[i].filterUnit + ')';
       }
     }
 
