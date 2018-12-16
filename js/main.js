@@ -10,7 +10,9 @@
       && evt.target.tagName !== 'INPUT'
       && evt.target.tagName !== 'TEXTAREA') {
       window.picture.closeBigPicture();
-      // closeUploadPopup();
+      window.preview.closeUploadPopup();
+      console.log('close');
+
     }
   };
 

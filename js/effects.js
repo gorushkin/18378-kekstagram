@@ -75,7 +75,6 @@
   var effectLevelPin = window.preview.imageUploadPopup.querySelector(Selectors.EFFECT_LEVEL_PIN);
   var effectLevelDepth = window.preview.imageUploadPopup.querySelector(Selectors.EFFECT_LEVEL_DEPTH);
   var effectLevelSlider = window.preview.imageUploadPopup.querySelector(Selectors.IMG_UPLOAD_EFFECT_LEVEL);
-  // var imageUploadPreview = window.preview.imageUploadPopup.querySelector(Selectors.IMAGE_UPLOAD_PREVEW);
   var effeectLevelValueInput = window.preview.imageUploadPopup.querySelector(Selectors.EFFECT_LEVEL_VALUE);
   var scaleControlSmaller = window.preview.imageUploadPopup.querySelector(Selectors.SCALE_CONTROL_SMALLER);
   var scaleControlBigger = window.preview.imageUploadPopup.querySelector(Selectors.SCALE_CONTROL_BIGGER);
@@ -153,8 +152,7 @@
 
   window.effects = {
     Filters: Filters,
-    scaleControlValue: scaleControlValue,
-    // imageUploadPreview: imageUploadPreview
+    scaleControlValue: scaleControlValue
   };
 
 })();

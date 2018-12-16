@@ -40,7 +40,8 @@
 
   window.preview = {
     imageUploadPopup: imageUploadPopup,
-    imageUploadPreview: imageUploadPreview
+    imageUploadPreview: imageUploadPreview,
+    closeUploadPopup: closeUploadPopup
   };
 
 })();
