@@ -18,48 +18,48 @@ var DESCRIPTIONS = [
   'Вот это тачка!'
 ];
 
-var FILTERS = [
-  {
+var FILTERS = {
+  none: {
     className: 'effects__preview--none',
     filter: '',
     maxValue: 0
   },
-  {
+  chrome: {
     className: 'effects__preview--chrome',
     filter: 'grayscale',
     minValue: '0',
     maxValue: '1',
     filterUnit: ''
   },
-  {
+  sepia: {
     className: 'effects__preview--sepia',
     filter: 'sepia',
     minValue: '0',
     maxValue: '1',
     filterUnit: ''
   },
-  {
+  marvin: {
     className: 'effects__preview--marvin',
     filter: 'invert',
     minValue: '0',
     maxValue: '100',
     filterUnit: '%'
   },
-  {
+  phobos: {
     className: 'effects__preview--phobos',
     filter: 'blur',
     minValue: '0',
     maxValue: '3',
     filterUnit: 'px'
   },
-  {
+  heat: {
     className: 'effects__preview--heat',
     filter: 'brightness',
     minValue: '1',
     maxValue: '3',
     filterUnit: ''
   }
-];
+};
 
 var PHOTOS_COUNT = 25;
 var LIKES_MIN_COUNT = 15;
@@ -67,6 +67,8 @@ var LIKES_MAX_COUNT = 200;
 var COMMENTS_COUNT = 5;
 var HIDE_CLASS = 'hidden';
 var VISUALLY_HIDDEN_CLASS = 'visually-hidden';
+var DISPLAY_NONE_CLASS = 'none';
+var DISPLAY_BLOCK_CLASS = 'block';
 var ESC_KEYCODE = 27;
 var DEFAULT_SCALE_CONTROL_VALUE = 100;
 var SCALE_CONTROL_VALUE_STEP = 25;
@@ -79,6 +81,9 @@ var HASHTAG_FIRST_SYMBOL = '#';
 var INCREASE = 1;
 var DECREASE = -1;
 var COMMENT_INPUT_ERROR_MESSAGE = 'Длина комментария не может составлять больше ' + COMMENT_MAX_LENGTH + ' символов';
+var MIN_EFFECT_LEVEL_VALUE = 0;
+var DEFAULT_UNIT = 'px';
+var RELATIVE_UNIT = '%';
 
 var HASHTAG_ERRORS_CODE = {
   noErrors: {
@@ -251,7 +256,7 @@ var closeUploadPopup = function () {
   imageUploadPopup.classList.add(HIDE_CLASS);
   document.removeEventListener('keydown', onPopupKeyPress);
   imageUploadForm.reset();
-  imageUploadPreview.style.filter = FILTERS[0].filter;
+  imageUploadPreview.style.filter = FILTERS.none;
 };
 
 imageUploadInput.addEventListener('change', openUploadPopup);
@@ -295,12 +300,12 @@ for (i = 0; i < picturesList.length; i++) {
 effectsPreivewList.addEventListener('click', function () {
   if (event.target.tagName === 'SPAN') {
     var filterClass = event.target.classList[1];
-    effectLevelSlider.style.display = (filterClass === FILTERS[0].className) ? 'none' : 'block';
+    effectLevelSlider.style.display = (filterClass === FILTERS.none.className) ? DISPLAY_NONE_CLASS : DISPLAY_BLOCK_CLASS;
     imageUploadPreview.className = filterClass;
     imageUploadPreview.style.filter = null;
-    effectLevelPin.style.left = effectLevelLine.offsetWidth + 'px';
+    effectLevelPin.style.left = effectLevelLine.offsetWidth + DEFAULT_UNIT;
     effeectLevelValueInput.value = effectLevelPin.offsetLeft * 100 / effectLevelLine.offsetWidth;
-    effectLevelDepth.style.width = effeectLevelValueInput.value + '%';
+    effectLevelDepth.style.width = effeectLevelValueInput.value + RELATIVE_UNIT;
   }
 });
 
@@ -355,9 +360,6 @@ commentInput.addEventListener('input', function (commentEvt) {
   }
 });
 
-
-openUploadPopup();
-
 effectLevelPin.addEventListener('mousedown', function (evt) {
 
   var barWidth = effectLevelLine.offsetWidth;
@@ -367,16 +369,17 @@ effectLevelPin.addEventListener('mousedown', function (evt) {
     var shift = startCoords - moveEvt.clientX;
     startCoords = moveEvt.clientX;
     if (effectLevelPin.offsetLeft - shift > barWidth) {
-      effectLevelPin.style.left = barWidth + 'px';
-    } else if (effectLevelPin.offsetLeft - shift < 0) {
-      effectLevelPin.style.left = '0px';
+      effectLevelPin.style.left = barWidth + DEFAULT_UNIT;
+    } else if (effectLevelPin.offsetLeft - shift < MIN_EFFECT_LEVEL_VALUE) {
+      effectLevelPin.style.left = MIN_EFFECT_LEVEL_VALUE + DEFAULT_UNIT;
     } else {
-      effectLevelPin.style.left = (effectLevelPin.offsetLeft - shift) + 'px';
+      effectLevelPin.style.left = (effectLevelPin.offsetLeft - shift) + DEFAULT_UNIT;
     }
     effeectLevelValueInput.value = effectLevelPin.offsetLeft * 100 / barWidth;
-    effectLevelDepth.style.width = effeectLevelValueInput.value + '%';
 
-    for (i = 0; i < FILTERS.length; i++) {
+    effectLevelDepth.style.width = effeectLevelValueInput.value + RELATIVE_UNIT;
+
+    for (i in FILTERS) {
       if (imageUploadPreview.className === FILTERS[i].className) {
         var filterWidth = effeectLevelValueInput.value * FILTERS[i].maxValue / 100;
         imageUploadPreview.style.filter = FILTERS[i].filter + '(' + filterWidth + FILTERS[i].filterUnit + ')';
