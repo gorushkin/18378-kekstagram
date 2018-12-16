@@ -143,7 +143,8 @@ var Selectors = {
   SCALE_CONTROL_VALUE: '.scale__control--value',
   IMAGE_UPLOAD_HASHTAGS: '.text__hashtags',
   IMG_UPLOAD_SUBMIT: '.img-upload__submit',
-  IMG_UPLOAD_COMMENT: '.text__description'
+  IMG_UPLOAD_COMMENT: '.text__description',
+  IMG_UPLOAD_EFFECT_LEVEL: '.img-upload__effect-level'
 };
 
 var pictureTemplate =
@@ -171,6 +172,7 @@ var scaleControlValue = imageUploadPopup.querySelector(Selectors.SCALE_CONTROL_V
 var hashtagsInput = imageUploadPopup.querySelector(Selectors.IMAGE_UPLOAD_HASHTAGS);
 var commentInput = imageUploadPopup.querySelector(Selectors.IMG_UPLOAD_COMMENT);
 var effectLevelDepth = imageUploadPopup.querySelector(Selectors.EFFECT_LEVEL_DEPTH);
+var effectLevelSlider = imageUploadPopup.querySelector(Selectors.IMG_UPLOAD_EFFECT_LEVEL);
 
 var photosInfoList = [];
 
@@ -290,27 +292,15 @@ for (i = 0; i < picturesList.length; i++) {
   openThumbnailImage(i);
 }
 
-// effectsPreivewList.addEventListener('click', function () {
-//   if (event.target.tagName === 'SPAN') {
-//     var filterClass = event.target.classList[1];
-//     for (i = 0; i < FILTERS.length; i++) {
-//       if (filterClass === FILTERS[i].className) {
-//         imageUploadPreview.style.filter = FILTERS[i].filter;
-//       }
-//     }
-//   }
-// });
-
 effectsPreivewList.addEventListener('click', function () {
   if (event.target.tagName === 'SPAN') {
     var filterClass = event.target.classList[1];
+    effectLevelSlider.style.display = (filterClass === FILTERS[0].className) ? 'none' : 'block';
     imageUploadPreview.className = filterClass;
     imageUploadPreview.style.filter = null;
     effectLevelPin.style.left = effectLevelLine.offsetWidth + 'px';
-    effectLevelDepth.style.width = null;
     effeectLevelValueInput.value = effectLevelPin.offsetLeft * 100 / effectLevelLine.offsetWidth;
-    console.log(effeectLevelValueInput.value);
-
+    effectLevelDepth.style.width = effeectLevelValueInput.value + '%';
   }
 });
 
@@ -373,9 +363,8 @@ effectLevelPin.addEventListener('mousedown', function (evt) {
   var barWidth = effectLevelLine.offsetWidth;
   var startCoords = evt.clientX;
   var onMouseMove = function (moveEvt) {
-
+    moveEvt.preventDefault();
     var shift = startCoords - moveEvt.clientX;
-
     startCoords = moveEvt.clientX;
     if (effectLevelPin.offsetLeft - shift > barWidth) {
       effectLevelPin.style.left = barWidth + 'px';
@@ -390,7 +379,6 @@ effectLevelPin.addEventListener('mousedown', function (evt) {
     for (i = 0; i < FILTERS.length; i++) {
       if (imageUploadPreview.className === FILTERS[i].className) {
         var filterWidth = effeectLevelValueInput.value * FILTERS[i].maxValue / 100;
-        console.log(filterWidth);
         imageUploadPreview.style.filter = FILTERS[i].filter + '(' + filterWidth + FILTERS[i].filterUnit + ')';
       }
     }
