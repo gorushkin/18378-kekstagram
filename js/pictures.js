@@ -361,17 +361,19 @@ commentInput.addEventListener('input', function (commentEvt) {
 });
 
 effectLevelPin.addEventListener('mousedown', function (evt) {
-
+  var effectLevelLineCoords = effectLevelLine.getBoundingClientRect();
   var barWidth = effectLevelLine.offsetWidth;
   var startCoords = evt.clientX;
   var onMouseMove = function (moveEvt) {
     moveEvt.preventDefault();
     var shift = startCoords - moveEvt.clientX;
     startCoords = moveEvt.clientX;
-    if (effectLevelPin.offsetLeft - shift > barWidth) {
+    if (moveEvt.clientX > effectLevelLineCoords.right) {
       effectLevelPin.style.left = barWidth + DEFAULT_UNIT;
-    } else if (effectLevelPin.offsetLeft - shift < MIN_EFFECT_LEVEL_VALUE) {
+      startCoords = effectLevelLineCoords.right;
+    } else if (moveEvt.clientX < effectLevelLineCoords.left) {
       effectLevelPin.style.left = MIN_EFFECT_LEVEL_VALUE + DEFAULT_UNIT;
+      startCoords = effectLevelLineCoords.left;
     } else {
       effectLevelPin.style.left = (effectLevelPin.offsetLeft - shift) + DEFAULT_UNIT;
     }
