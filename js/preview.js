@@ -15,7 +15,6 @@
   };
 
   var imageUploadPopup = document.querySelector(Selectors.IMAGE_UPLOAD_POPUP);
-  // var scaleControlValue = imageUploadPopup.querySelector(Selectors.SCALE_CONTROL_VALUE);
   var imageUploadPreview = imageUploadPopup.querySelector(Selectors.IMAGE_UPLOAD_PREVEW);
   var imageUploadForm = document.querySelector(Selectors.IMAGE_UPLOAD_FORM);
   var imageUploadInput = document.querySelector(Selectors.IMAGE_UPLOAD_INPUT);
@@ -33,6 +32,7 @@
     document.removeEventListener('keydown', window.main.onPopupKeyPress);
     imageUploadForm.reset();
     imageUploadPreview.style.filter = window.effects.Filters.NONE;
+
   };
 
   imageUploadInput.addEventListener('change', openUploadPopup);

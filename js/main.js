@@ -7,12 +7,10 @@
 
   var onPopupKeyPress = function (evt) {
     if (evt.keyCode === ESC_KEYCODE
-      && evt.target.tagName !== 'INPUT'
+      && window.submitform.hashtagsInput !== document.activeElement.className
       && evt.target.tagName !== 'TEXTAREA') {
       window.picture.closeBigPicture();
       window.preview.closeUploadPopup();
-      console.log('close');
-
     }
   };
 

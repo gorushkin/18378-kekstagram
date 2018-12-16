@@ -79,4 +79,8 @@
     }
   });
 
+  window.submitform = {
+    hashtagsInput: hashtagsInput
+  };
+
 })();
