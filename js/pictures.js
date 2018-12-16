@@ -18,32 +18,48 @@ var DESCRIPTIONS = [
   'Вот это тачка!'
 ];
 
-var FILTERS = [
-  {
+var FILTERS = {
+  none: {
     className: 'effects__preview--none',
-    filter: ''
+    filter: '',
+    maxValue: 0
   },
-  {
+  chrome: {
     className: 'effects__preview--chrome',
-    filter: 'grayscale(100%)'
+    filter: 'grayscale',
+    minValue: '0',
+    maxValue: '1',
+    filterUnit: ''
   },
-  {
+  sepia: {
     className: 'effects__preview--sepia',
-    filter: 'sepia(100%)'
+    filter: 'sepia',
+    minValue: '0',
+    maxValue: '1',
+    filterUnit: ''
   },
-  {
+  marvin: {
     className: 'effects__preview--marvin',
-    filter: 'invert(100%)'
+    filter: 'invert',
+    minValue: '0',
+    maxValue: '100',
+    filterUnit: '%'
   },
-  {
+  phobos: {
     className: 'effects__preview--phobos',
-    filter: 'blur(5px)'
+    filter: 'blur',
+    minValue: '0',
+    maxValue: '3',
+    filterUnit: 'px'
   },
-  {
+  heat: {
     className: 'effects__preview--heat',
-    filter: 'brightness(3)'
+    filter: 'brightness',
+    minValue: '1',
+    maxValue: '3',
+    filterUnit: ''
   }
-];
+};
 
 var PHOTOS_COUNT = 25;
 var LIKES_MIN_COUNT = 15;
@@ -51,6 +67,8 @@ var LIKES_MAX_COUNT = 200;
 var COMMENTS_COUNT = 5;
 var HIDE_CLASS = 'hidden';
 var VISUALLY_HIDDEN_CLASS = 'visually-hidden';
+var DISPLAY_NONE_CLASS = 'none';
+var DISPLAY_BLOCK_CLASS = 'block';
 var ESC_KEYCODE = 27;
 var DEFAULT_SCALE_CONTROL_VALUE = 100;
 var SCALE_CONTROL_VALUE_STEP = 25;
@@ -63,6 +81,9 @@ var HASHTAG_FIRST_SYMBOL = '#';
 var INCREASE = 1;
 var DECREASE = -1;
 var COMMENT_INPUT_ERROR_MESSAGE = 'Длина комментария не может составлять больше ' + COMMENT_MAX_LENGTH + ' символов';
+var MIN_EFFECT_LEVEL_VALUE = 0;
+var DEFAULT_UNIT = 'px';
+var RELATIVE_UNIT = '%';
 
 var HASHTAG_ERRORS_CODE = {
   noErrors: {
@@ -127,7 +148,8 @@ var Selectors = {
   SCALE_CONTROL_VALUE: '.scale__control--value',
   IMAGE_UPLOAD_HASHTAGS: '.text__hashtags',
   IMG_UPLOAD_SUBMIT: '.img-upload__submit',
-  IMG_UPLOAD_COMMENT: '.text__description'
+  IMG_UPLOAD_COMMENT: '.text__description',
+  IMG_UPLOAD_EFFECT_LEVEL: '.img-upload__effect-level'
 };
 
 var pictureTemplate =
@@ -154,6 +176,8 @@ var scaleControlBigger = imageUploadPopup.querySelector(Selectors.SCALE_CONTROL_
 var scaleControlValue = imageUploadPopup.querySelector(Selectors.SCALE_CONTROL_VALUE);
 var hashtagsInput = imageUploadPopup.querySelector(Selectors.IMAGE_UPLOAD_HASHTAGS);
 var commentInput = imageUploadPopup.querySelector(Selectors.IMG_UPLOAD_COMMENT);
+var effectLevelDepth = imageUploadPopup.querySelector(Selectors.EFFECT_LEVEL_DEPTH);
+var effectLevelSlider = imageUploadPopup.querySelector(Selectors.IMG_UPLOAD_EFFECT_LEVEL);
 
 var photosInfoList = [];
 
@@ -232,7 +256,7 @@ var closeUploadPopup = function () {
   imageUploadPopup.classList.add(HIDE_CLASS);
   document.removeEventListener('keydown', onPopupKeyPress);
   imageUploadForm.reset();
-  imageUploadPreview.style.filter = FILTERS[0].filter;
+  imageUploadPreview.style.filter = FILTERS.none;
 };
 
 imageUploadInput.addEventListener('change', openUploadPopup);
@@ -276,11 +300,12 @@ for (i = 0; i < picturesList.length; i++) {
 effectsPreivewList.addEventListener('click', function () {
   if (event.target.tagName === 'SPAN') {
     var filterClass = event.target.classList[1];
-    for (i = 0; i < FILTERS.length; i++) {
-      if (filterClass === FILTERS[i].className) {
-        imageUploadPreview.style.filter = FILTERS[i].filter;
-      }
-    }
+    effectLevelSlider.style.display = (filterClass === FILTERS.none.className) ? DISPLAY_NONE_CLASS : DISPLAY_BLOCK_CLASS;
+    imageUploadPreview.className = filterClass;
+    imageUploadPreview.style.filter = null;
+    effectLevelPin.style.left = effectLevelLine.offsetWidth + DEFAULT_UNIT;
+    effeectLevelValueInput.value = effectLevelPin.offsetLeft * 100 / effectLevelLine.offsetWidth;
+    effectLevelDepth.style.width = effeectLevelValueInput.value + RELATIVE_UNIT;
   }
 });
 
@@ -297,12 +322,6 @@ scaleControlSmaller.addEventListener('click', function () {
 
 scaleControlBigger.addEventListener('click', function () {
   changeScaleUploadImage(INCREASE);
-});
-
-effectLevelPin.addEventListener('mouseup', function () {
-  var leftPinMargin = effectLevelPin.offsetLeft;
-  var barWidth = effectLevelLine.offsetWidth;
-  effeectLevelValueInput.value = leftPinMargin * 100 / barWidth;
 });
 
 var checkHashTagsCollection = function (line) {
@@ -341,3 +360,44 @@ commentInput.addEventListener('input', function (commentEvt) {
   }
 });
 
+effectLevelPin.addEventListener('mousedown', function (evt) {
+  var effectLevelLineCoords = effectLevelLine.getBoundingClientRect();
+  var barWidth = effectLevelLine.offsetWidth;
+  var startCoords = evt.clientX;
+  var onMouseMove = function (moveEvt) {
+    moveEvt.preventDefault();
+    var shift = startCoords - moveEvt.clientX;
+    startCoords = moveEvt.clientX;
+    if (moveEvt.clientX > effectLevelLineCoords.right) {
+      effectLevelPin.style.left = barWidth + DEFAULT_UNIT;
+      startCoords = effectLevelLineCoords.right;
+    } else if (moveEvt.clientX < effectLevelLineCoords.left) {
+      effectLevelPin.style.left = MIN_EFFECT_LEVEL_VALUE + DEFAULT_UNIT;
+      startCoords = effectLevelLineCoords.left;
+    } else {
+      effectLevelPin.style.left = (effectLevelPin.offsetLeft - shift) + DEFAULT_UNIT;
+    }
+    effeectLevelValueInput.value = effectLevelPin.offsetLeft * 100 / barWidth;
+
+    effectLevelDepth.style.width = effeectLevelValueInput.value + RELATIVE_UNIT;
+
+    for (i in FILTERS) {
+      if (imageUploadPreview.className === FILTERS[i].className) {
+        var filterWidth = effeectLevelValueInput.value * FILTERS[i].maxValue / 100;
+        imageUploadPreview.style.filter = FILTERS[i].filter + '(' + filterWidth + FILTERS[i].filterUnit + ')';
+      }
+    }
+
+  };
+
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+  };
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
+
+});
