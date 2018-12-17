@@ -78,22 +78,12 @@
   var scaleControlSmaller = window.uploadpopup.imageUploadPopup.querySelector(Selectors.SCALE_CONTROL_SMALLER);
   var scaleControlBigger = window.uploadpopup.imageUploadPopup.querySelector(Selectors.SCALE_CONTROL_BIGGER);
   var scaleControlValue = window.uploadpopup.imageUploadPopup.querySelector(Selectors.SCALE_CONTROL_VALUE);
-  // var effectsPreviewItem = window.uploadpopup.imageUploadPopup.querySelectorAll(Selectors.EFFECTS_PREVIEW_ITEM);
 
   effectsPreviewList.addEventListener('click', function () {
-    if (event.target.tagName === 'SPAN') {
-      var filterClass = event.target.classList[1];
-      // effectLevelSlider.style.display = (filterClass === Filters.NONE.className) ? DISPLAY_NONE_CLASS : DISPLAY_BLOCK_CLASS;
-      for (var i in Filters) {
-        if (filterClass === Filters[i].className) {
-          if (Filters[i].hideSlider) {
-            effectLevelSlider.style.display = DISPLAY_NONE_CLASS;
-          } else {
-            effectLevelSlider.style.display = DISPLAY_BLOCK_CLASS;
-          }
-        }
-      }
-      window.uploadpopup.imageUploadPreview.className = filterClass;
+    if (event.target.tagName === 'INPUT') {
+      var effect = event.target.value.toUpperCase();
+      effectLevelSlider.style.display = (Filters[effect].hideSlider) ? DISPLAY_NONE_CLASS : DISPLAY_BLOCK_CLASS;
+      window.uploadpopup.imageUploadPreview.className = Filters[effect].className;
       window.uploadpopup.imageUploadPreview.style.filter = null;
       effectLevelPin.style.left = effectLevelLine.offsetWidth + DEFAULT_UNIT;
       effeectLevelValueInput.value = effectLevelPin.offsetLeft * 100 / effectLevelLine.offsetWidth;
