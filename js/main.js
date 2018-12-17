@@ -7,7 +7,7 @@
 
   var onPopupKeyPress = function (evt) {
     if (evt.keyCode === ESC_KEYCODE
-      && window.submitform.hashtagsInput !== document.activeElement.className
+      && window.inputform.hashtagsInput !== document.activeElement.className
       && evt.target.tagName !== 'TEXTAREA') {
       window.picture.closeBigPicture();
       window.uploadpopup.closeUploadPopup();
