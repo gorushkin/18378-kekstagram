@@ -10,7 +10,7 @@
       && window.submitform.hashtagsInput !== document.activeElement.className
       && evt.target.tagName !== 'TEXTAREA') {
       window.picture.closeBigPicture();
-      window.preview.closeUploadPopup();
+      window.uploadpopup.closeUploadPopup();
     }
   };
 

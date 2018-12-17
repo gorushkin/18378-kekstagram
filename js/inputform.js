@@ -40,8 +40,8 @@
     IMG_UPLOAD_COMMENT: '.text__description',
   };
 
-  var hashtagsInput = window.preview.imageUploadPopup.querySelector(Selectors.IMAGE_UPLOAD_HASHTAGS);
-  var commentInput = window.preview.imageUploadPopup.querySelector(Selectors.IMG_UPLOAD_COMMENT);
+  var hashtagsInput = window.uploadpopup.imageUploadPopup.querySelector(Selectors.IMAGE_UPLOAD_HASHTAGS);
+  var commentInput = window.uploadpopup.imageUploadPopup.querySelector(Selectors.IMG_UPLOAD_COMMENT);
 
   var checkHashTagsCollection = function (line) {
     if (line.length > MAX_HASHTAGS_COUNT) {
@@ -79,7 +79,7 @@
     }
   });
 
-  window.submitform = {
+  window.inputform = {
     hashtagsInput: hashtagsInput
   };
 
