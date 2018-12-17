@@ -55,8 +55,7 @@
     SCALE_CONTROL_SMALLER: '.scale__control--smaller',
     SCALE_CONTROL_BIGGER: '.scale__control--bigger',
     SCALE_CONTROL_VALUE: '.scale__control--value',
-    IMG_UPLOAD_EFFECT_LEVEL: '.img-upload__effect-level'
-
+    IMG_UPLOAD_EFFECT_LEVEL: '.img-upload__effect-level',
   };
 
   var MIN_EFFECT_LEVEL_VALUE = 0;
@@ -70,7 +69,7 @@
   var SCALE_CONTROL_VALUE_MIN = 25;
   var SCALE_CONTROL_VALUE_MAX = 100;
 
-  var effectsPreivewList = window.uploadpopup.imageUploadPopup.querySelector(Selectors.EFFECTS_PREVIEW_LIST);
+  var effectsPreviewList = window.uploadpopup.imageUploadPopup.querySelector(Selectors.EFFECTS_PREVIEW_LIST);
   var effectLevelLine = window.uploadpopup.imageUploadPopup.querySelector(Selectors.EFFECT_LEVEL_LINE);
   var effectLevelPin = window.uploadpopup.imageUploadPopup.querySelector(Selectors.EFFECT_LEVEL_PIN);
   var effectLevelDepth = window.uploadpopup.imageUploadPopup.querySelector(Selectors.EFFECT_LEVEL_DEPTH);
@@ -79,12 +78,21 @@
   var scaleControlSmaller = window.uploadpopup.imageUploadPopup.querySelector(Selectors.SCALE_CONTROL_SMALLER);
   var scaleControlBigger = window.uploadpopup.imageUploadPopup.querySelector(Selectors.SCALE_CONTROL_BIGGER);
   var scaleControlValue = window.uploadpopup.imageUploadPopup.querySelector(Selectors.SCALE_CONTROL_VALUE);
+  // var effectsPreviewItem = window.uploadpopup.imageUploadPopup.querySelectorAll(Selectors.EFFECTS_PREVIEW_ITEM);
 
-
-  effectsPreivewList.addEventListener('click', function () {
+  effectsPreviewList.addEventListener('click', function () {
     if (event.target.tagName === 'SPAN') {
       var filterClass = event.target.classList[1];
-      effectLevelSlider.style.display = (filterClass === Filters.NONE.className) ? DISPLAY_NONE_CLASS : DISPLAY_BLOCK_CLASS;
+      // effectLevelSlider.style.display = (filterClass === Filters.NONE.className) ? DISPLAY_NONE_CLASS : DISPLAY_BLOCK_CLASS;
+      for (var i in Filters) {
+        if (filterClass === Filters[i].className) {
+          if (Filters[i].hideSlider) {
+            effectLevelSlider.style.display = DISPLAY_NONE_CLASS;
+          } else {
+            effectLevelSlider.style.display = DISPLAY_BLOCK_CLASS;
+          }
+        }
+      }
       window.uploadpopup.imageUploadPreview.className = filterClass;
       window.uploadpopup.imageUploadPreview.style.filter = null;
       effectLevelPin.style.left = effectLevelLine.offsetWidth + DEFAULT_UNIT;

@@ -66,8 +66,14 @@
 
   hashtagsInput.addEventListener('input', function (hashtagEvt) {
     hashtagEvt.preventDefault();
-    var array = hashtagsInput.value.toLowerCase().split(' ');
-    hashtagsInput.setCustomValidity(checkHashTagsCollection(array).errorText);
+    var tempAarray = hashtagsInput.value.toLowerCase().split(' ');
+    var newArray = [];
+    for (var i = 0; i < tempAarray.length; i++) {
+      if (tempAarray[i].length > 0) {
+        newArray.push(tempAarray[i]);
+      }
+    }
+    hashtagsInput.setCustomValidity(checkHashTagsCollection(newArray).errorText);
   });
 
   commentInput.addEventListener('input', function (commentEvt) {
