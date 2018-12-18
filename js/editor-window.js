@@ -28,7 +28,7 @@
 
   var openUploadPopup = function () {
     imageUploadPopup.classList.remove(HIDE_CLASS);
-    document.addEventListener('keydown', window.main.onPopupKeyPress);
+    document.addEventListener('keydown', window.util.onPopupKeyPress);
     scaleControlValue.value = DEFAULT_SCALE_CONTROL_VALUE;
     imageUploadPreview.style.transform = 'scale(' + DEFAULT_SCALE_CONTROL_VALUE / 100 + ')';
   };
@@ -36,7 +36,7 @@
   window.editorwindow = {
     closeUploadPopup: function () {
       imageUploadPopup.classList.add(HIDE_CLASS);
-      document.removeEventListener('keydown', window.main.onPopupKeyPress);
+      document.removeEventListener('keydown', window.util.onPopupKeyPress);
       imageUploadForm.reset();
       window.previeweffects.filterReset(imageUploadPreview);
     }

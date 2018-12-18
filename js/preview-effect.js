@@ -69,7 +69,7 @@
   var imageUploadPopup = document.querySelector(Selectors.IMAGE_UPLOAD_POPUP);
   var effectLevelLine = imageUploadPopup.querySelector(Selectors.EFFECT_LEVEL_LINE);
   var effectLevelPin = imageUploadPopup.querySelector(Selectors.EFFECT_LEVEL_PIN);
-  var effeectLevelValueInput = imageUploadPopup.querySelector(Selectors.EFFECT_LEVEL_VALUE);
+  var effectLevelValueInput = imageUploadPopup.querySelector(Selectors.EFFECT_LEVEL_VALUE);
   var effectLevelDepth = imageUploadPopup.querySelector(Selectors.EFFECT_LEVEL_DEPTH);
   var effectLevelSlider = imageUploadPopup.querySelector(Selectors.IMG_UPLOAD_EFFECT_LEVEL);
   var imageUploadPreview = imageUploadPopup.querySelector(Selectors.IMAGE_UPLOAD_PREVEW);
@@ -92,13 +92,13 @@
       } else {
         effectLevelPin.style.left = (effectLevelPin.offsetLeft - shift) + DEFAULT_UNIT;
       }
-      effeectLevelValueInput.value = effectLevelPin.offsetLeft * 100 / barWidth;
+      effectLevelValueInput.value = effectLevelPin.offsetLeft * 100 / barWidth;
 
-      effectLevelDepth.style.width = effeectLevelValueInput.value + RELATIVE_UNIT;
+      effectLevelDepth.style.width = effectLevelValueInput.value + RELATIVE_UNIT;
 
       for (var i in Filters) {
         if (imageUploadPreview.className === Filters[i].className) {
-          var filterWidth = effeectLevelValueInput.value * Filters[i].maxValue / 100;
+          var filterWidth = effectLevelValueInput.value * Filters[i].maxValue / 100;
           imageUploadPreview.style.filter = Filters[i].filter + '(' + filterWidth + Filters[i].filterUnit + ')';
         }
       }
@@ -133,8 +133,8 @@
           imageUploadPreview.className = Filters[effect].className;
           imageUploadPreview.style.filter = null;
           effectLevelPin.style.left = effectLevelLine.offsetWidth + DEFAULT_UNIT;
-          effeectLevelValueInput.value = effectLevelPin.offsetLeft * 100 / effectLevelLine.offsetWidth;
-          effectLevelDepth.style.width = effeectLevelValueInput.value + RELATIVE_UNIT;
+          effectLevelValueInput.value = effectLevelPin.offsetLeft * 100 / effectLevelLine.offsetWidth;
+          effectLevelDepth.style.width = effectLevelValueInput.value + RELATIVE_UNIT;
         }
       });
     },

@@ -37,9 +37,9 @@
     createPhotoInfo: function (elementCount) {
       var newPhotoInfo = {};
       newPhotoInfo.url = 'photos/' + elementCount.toString() + '.jpg';
-      newPhotoInfo.likes = window.main.getRandomInteger(LIKES_MIN_COUNT, LIKES_MAX_COUNT + 1);
-      newPhotoInfo.comments = window.main.generateSubCollection(COMMENTS, window.main.getRandomInteger(1, COMMENTS_COUNT + 1));
-      newPhotoInfo.description = DESCRIPTIONS[window.main.getRandomInteger(0, DESCRIPTIONS.length)];
+      newPhotoInfo.likes = window.util.getRandomInteger(LIKES_MIN_COUNT, LIKES_MAX_COUNT + 1);
+      newPhotoInfo.comments = window.util.generateSubCollection(COMMENTS, window.util.getRandomInteger(1, COMMENTS_COUNT + 1));
+      newPhotoInfo.description = DESCRIPTIONS[window.util.getRandomInteger(0, DESCRIPTIONS.length)];
       return newPhotoInfo;
     },
     renderUserPicture: function (photoInfo) {
