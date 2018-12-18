@@ -19,41 +19,36 @@
     'Вот это тачка!'
   ];
 
+  var Selectors = {
+    PICTURE_TEMPLATE: '#picture',
+    USER_PICTURE: '.picture',
+    PICTURE_TEMPLATE_IMG: '.picture__img',
+    PICTURE_TEMPLATE_LIKES: '.picture__likes',
+    PICTURE_TEMPLATE_COMMENTS: '.picture__comments'
+  };
+
   var LIKES_MIN_COUNT = 15;
   var LIKES_MAX_COUNT = 200;
   var COMMENTS_COUNT = 5;
 
-  var photosInfoList = [];
+  var pictureTemplate = document.querySelector(Selectors.PICTURE_TEMPLATE).content.querySelector(Selectors.USER_PICTURE);
 
-  var getRandomInteger = function (min, max) {
-    var randomInteger = Math.floor(Math.random() * (max - min) + min);
-    return randomInteger;
-  };
-
-  var generateSubCollection = function (inputCollection, size) {
-    var tempArray = inputCollection.slice();
-    var subArray = [];
-    for (var i = 0; i < size; i++) {
-      var rnd = getRandomInteger(0, tempArray.length);
-      var tempElement = tempArray.splice(rnd, 1);
-      subArray = subArray.concat(tempElement);
+  window.thumbnails = {
+    createPhotoInfo: function (elementCount) {
+      var newPhotoInfo = {};
+      newPhotoInfo.url = 'photos/' + elementCount.toString() + '.jpg';
+      newPhotoInfo.likes = window.util.getRandomInteger(LIKES_MIN_COUNT, LIKES_MAX_COUNT + 1);
+      newPhotoInfo.comments = window.util.generateSubCollection(COMMENTS, window.util.getRandomInteger(1, COMMENTS_COUNT + 1));
+      newPhotoInfo.description = DESCRIPTIONS[window.util.getRandomInteger(0, DESCRIPTIONS.length)];
+      return newPhotoInfo;
+    },
+    renderUserPicture: function (photoInfo) {
+      var photoElement = pictureTemplate.cloneNode(true);
+      photoElement.querySelector(Selectors.PICTURE_TEMPLATE_IMG).src = photoInfo.url;
+      photoElement.querySelector(Selectors.PICTURE_TEMPLATE_LIKES).textContent = photoInfo.likes;
+      photoElement.querySelector(Selectors.PICTURE_TEMPLATE_COMMENTS).textContent = photoInfo.comments.length;
+      return photoElement;
     }
-    return subArray;
-  };
-
-  var createPhotoInfo = function (photosNumber) {
-    var newPhotoInfo = {};
-    newPhotoInfo.url = 'photos/' + photosNumber.toString() + '.jpg';
-    newPhotoInfo.likes = getRandomInteger(LIKES_MIN_COUNT, LIKES_MAX_COUNT + 1);
-    newPhotoInfo.comments = generateSubCollection(COMMENTS, getRandomInteger(1, COMMENTS_COUNT + 1));
-    newPhotoInfo.description = DESCRIPTIONS[getRandomInteger(0, DESCRIPTIONS.length)];
-    return newPhotoInfo;
-  };
-
-  window.data = {
-    createPhotoInfo: createPhotoInfo,
-    photosInfoList: photosInfoList,
-    getRandomInteger: getRandomInteger
   };
 
 })();

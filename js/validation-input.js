@@ -1,12 +1,11 @@
 'use strict';
-(function () {
 
+(function () {
   var MAX_HASHTAGS_COUNT = 5;
   var COMMENT_MAX_LENGTH = 140;
   var HASHTAG_MAX_LENGTH = 20;
   var HASHTAG_FIRST_SYMBOL = '#';
   var COMMENT_INPUT_ERROR_MESSAGE = 'Длина комментария не может составлять больше ' + COMMENT_MAX_LENGTH + ' символов';
-
   var HASHTAG_ERRORS_CODE = {
     noErrors: {
       errorCode: 0,
@@ -34,14 +33,6 @@
     }
   };
 
-  var Selectors = {
-    IMAGE_UPLOAD_HASHTAGS: '.text__hashtags',
-    IMG_UPLOAD_SUBMIT: '.img-upload__submit',
-    IMG_UPLOAD_COMMENT: '.text__description',
-  };
-
-  var hashtagsInput = window.uploadpopup.imageUploadPopup.querySelector(Selectors.IMAGE_UPLOAD_HASHTAGS);
-  var commentInput = window.uploadpopup.imageUploadPopup.querySelector(Selectors.IMG_UPLOAD_COMMENT);
 
   var checkHashTagsCollection = function (line) {
     if (line.length > MAX_HASHTAGS_COUNT) {
@@ -64,29 +55,30 @@
     return HASHTAG_ERRORS_CODE.noErrors;
   };
 
-  hashtagsInput.addEventListener('input', function (hashtagEvt) {
-    hashtagEvt.preventDefault();
-    var tempAarray = hashtagsInput.value.toLowerCase().split(' ');
-    var newArray = [];
-    for (var i = 0; i < tempAarray.length; i++) {
-      if (tempAarray[i].length > 0) {
-        newArray.push(tempAarray[i]);
-      }
+  window.validationinput = {
+    hashtagsInputHandle: function (element) {
+      element.addEventListener('input', function (hashtagEvt) {
+        hashtagEvt.preventDefault();
+        var tempAarray = element.value.toLowerCase().split(' ');
+        var newArray = [];
+        for (var i = 0; i < tempAarray.length; i++) {
+          if (tempAarray[i].length > 0) {
+            newArray.push(tempAarray[i]);
+          }
+        }
+        element.setCustomValidity(checkHashTagsCollection(newArray).errorText);
+      });
+    },
+    commentInputHandle: function (element) {
+      element.addEventListener('input', function (commentEvt) {
+        commentEvt.preventDefault();
+        if (element.value.length > COMMENT_MAX_LENGTH) {
+          element.setCustomValidity(COMMENT_INPUT_ERROR_MESSAGE);
+        } else {
+          element.setCustomValidity('');
+        }
+      });
     }
-    hashtagsInput.setCustomValidity(checkHashTagsCollection(newArray).errorText);
-  });
-
-  commentInput.addEventListener('input', function (commentEvt) {
-    commentEvt.preventDefault();
-    if (commentInput.value.length > COMMENT_MAX_LENGTH) {
-      commentInput.setCustomValidity(COMMENT_INPUT_ERROR_MESSAGE);
-    } else {
-      commentInput.setCustomValidity('');
-    }
-  });
-
-  window.inputform = {
-    hashtagsInput: hashtagsInput
   };
 
 })();
