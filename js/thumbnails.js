@@ -19,27 +19,36 @@
     'Вот это тачка!'
   ];
 
+  var Selectors = {
+    PICTURE_TEMPLATE: '#picture',
+    USER_PICTURE: '.picture',
+    PICTURE_TEMPLATE_IMG: '.picture__img',
+    PICTURE_TEMPLATE_LIKES: '.picture__likes',
+    PICTURE_TEMPLATE_COMMENTS: '.picture__comments'
+  };
+
   var LIKES_MIN_COUNT = 15;
   var LIKES_MAX_COUNT = 200;
   var COMMENTS_COUNT = 5;
 
-  var pictureTemplate = document.querySelector(window.data.Selectors.PICTURE_TEMPLATE).content.querySelector(window.data.Selectors.USER_PICTURE);
+  var pictureTemplate = document.querySelector(Selectors.PICTURE_TEMPLATE).content.querySelector(Selectors.USER_PICTURE);
 
-  window.createPhotoInfo = function (elementCount) {
-    var newPhotoInfo = {};
-    newPhotoInfo.url = 'photos/' + elementCount.toString() + '.jpg';
-    newPhotoInfo.likes = window.data.getRandomInteger(LIKES_MIN_COUNT, LIKES_MAX_COUNT + 1);
-    newPhotoInfo.comments = window.data.generateSubCollection(COMMENTS, window.data.getRandomInteger(1, COMMENTS_COUNT + 1));
-    newPhotoInfo.description = DESCRIPTIONS[window.data.getRandomInteger(0, DESCRIPTIONS.length)];
-    return newPhotoInfo;
-  };
-
-  window.renderUserPicture = function (photoInfo) {
-    var photoElement = pictureTemplate.cloneNode(true);
-    photoElement.querySelector(window.data.Selectors.PICTURE_TEMPLATE_IMG).src = photoInfo.url;
-    photoElement.querySelector(window.data.Selectors.PICTURE_TEMPLATE_LIKES).textContent = photoInfo.likes;
-    photoElement.querySelector(window.data.Selectors.PICTURE_TEMPLATE_COMMENTS).textContent = photoInfo.comments.length;
-    return photoElement;
+  window.thumbnails = {
+    createPhotoInfo: function (elementCount) {
+      var newPhotoInfo = {};
+      newPhotoInfo.url = 'photos/' + elementCount.toString() + '.jpg';
+      newPhotoInfo.likes = window.main.getRandomInteger(LIKES_MIN_COUNT, LIKES_MAX_COUNT + 1);
+      newPhotoInfo.comments = window.main.generateSubCollection(COMMENTS, window.main.getRandomInteger(1, COMMENTS_COUNT + 1));
+      newPhotoInfo.description = DESCRIPTIONS[window.main.getRandomInteger(0, DESCRIPTIONS.length)];
+      return newPhotoInfo;
+    },
+    renderUserPicture: function (photoInfo) {
+      var photoElement = pictureTemplate.cloneNode(true);
+      photoElement.querySelector(Selectors.PICTURE_TEMPLATE_IMG).src = photoInfo.url;
+      photoElement.querySelector(Selectors.PICTURE_TEMPLATE_LIKES).textContent = photoInfo.likes;
+      photoElement.querySelector(Selectors.PICTURE_TEMPLATE_COMMENTS).textContent = photoInfo.comments.length;
+      return photoElement;
+    }
   };
 
 })();
