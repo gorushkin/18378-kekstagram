@@ -23,6 +23,7 @@
   var LIKES_MAX_COUNT = 200;
   var COMMENTS_COUNT = 5;
 
+  var pictureTemplate = document.querySelector(window.data.Selectors.PICTURE_TEMPLATE).content.querySelector(window.data.Selectors.USER_PICTURE);
 
   window.createPhotoInfo = function (elementCount) {
     var newPhotoInfo = {};
@@ -31,6 +32,14 @@
     newPhotoInfo.comments = window.generateSubCollection(COMMENTS, window.getRandomInteger(1, COMMENTS_COUNT + 1));
     newPhotoInfo.description = DESCRIPTIONS[window.getRandomInteger(0, DESCRIPTIONS.length)];
     return newPhotoInfo;
+  };
+
+  window.renderUserPicture = function (photoInfo) {
+    var photoElement = pictureTemplate.cloneNode(true);
+    photoElement.querySelector(window.data.Selectors.PICTURE_TEMPLATE_IMG).src = photoInfo.url;
+    photoElement.querySelector(window.data.Selectors.PICTURE_TEMPLATE_LIKES).textContent = photoInfo.likes;
+    photoElement.querySelector(window.data.Selectors.PICTURE_TEMPLATE_COMMENTS).textContent = photoInfo.comments.length;
+    return photoElement;
   };
 
 })();
