@@ -46,8 +46,8 @@
   var PHOTOS_COUNT = 25;
   var HIDE_CLASS = 'hidden';
   // var VISUALLY_HIDDEN_CLASS = 'visually-hidden';
-  var DISPLAY_NONE_CLASS = 'none';
-  var DISPLAY_BLOCK_CLASS = 'block';
+  // var DISPLAY_NONE_CLASS = 'none';
+  // var DISPLAY_BLOCK_CLASS = 'block';
   var ESC_KEYCODE = 27;
   var DEFAULT_SCALE_CONTROL_VALUE = 100;
   var SCALE_CONTROL_VALUE_STEP = 25;
@@ -60,9 +60,9 @@
   var INCREASE = 1;
   var DECREASE = -1;
   var COMMENT_INPUT_ERROR_MESSAGE = 'Длина комментария не может составлять больше ' + COMMENT_MAX_LENGTH + ' символов';
-  var MIN_EFFECT_LEVEL_VALUE = 0;
-  var DEFAULT_UNIT = 'px';
-  var RELATIVE_UNIT = '%';
+  // var MIN_EFFECT_LEVEL_VALUE = 0;
+  // var DEFAULT_UNIT = 'px';
+  // var RELATIVE_UNIT = '%';
 
   var HASHTAG_ERRORS_CODE = {
     noErrors: {
@@ -138,20 +138,20 @@
   var imageUploadCloseButton = imageUploadPopup.querySelector(Selectors.IMAGE_UPLOAD_POPUP_CLOSE_BUTTON);
   var imageUploadPreview = imageUploadPopup.querySelector(Selectors.IMAGE_UPLOAD_PREVEW);
   var effectsPreivewList = imageUploadPopup.querySelector(Selectors.EFFECTS_PREVIEW_LIST);
-  var effectLevelLine = imageUploadPopup.querySelector(Selectors.EFFECT_LEVEL_LINE);
-  var effectLevelPin = imageUploadPopup.querySelector(Selectors.EFFECT_LEVEL_PIN);
-  var effeectLevelValueInput = imageUploadPopup.querySelector(Selectors.EFFECT_LEVEL_VALUE);
+  // var effectLevelLine = imageUploadPopup.querySelector(Selectors.EFFECT_LEVEL_LINE);
+  // var effectLevelPin = imageUploadPopup.querySelector(Selectors.EFFECT_LEVEL_PIN);
+  // var effeectLevelValueInput = imageUploadPopup.querySelector(Selectors.EFFECT_LEVEL_VALUE);
   var scaleControlSmaller = imageUploadPopup.querySelector(Selectors.SCALE_CONTROL_SMALLER);
   var scaleControlBigger = imageUploadPopup.querySelector(Selectors.SCALE_CONTROL_BIGGER);
   var scaleControlValue = imageUploadPopup.querySelector(Selectors.SCALE_CONTROL_VALUE);
   var hashtagsInput = imageUploadPopup.querySelector(Selectors.IMAGE_UPLOAD_HASHTAGS);
   var commentInput = imageUploadPopup.querySelector(Selectors.IMG_UPLOAD_COMMENT);
-  var effectLevelDepth = imageUploadPopup.querySelector(Selectors.EFFECT_LEVEL_DEPTH);
-  var effectLevelSlider = imageUploadPopup.querySelector(Selectors.IMG_UPLOAD_EFFECT_LEVEL);
+  // var effectLevelDepth = imageUploadPopup.querySelector(Selectors.EFFECT_LEVEL_DEPTH);
+  // var effectLevelSlider = imageUploadPopup.querySelector(Selectors.IMG_UPLOAD_EFFECT_LEVEL);
+
+  window.main.imageUploadPopup = imageUploadPopup;
 
   var photosInfoList = [];
-
-
 
   var fragment = document.createDocumentFragment();
 
@@ -202,17 +202,19 @@
     openThumbnailImage(i);
   }
 
-  effectsPreivewList.addEventListener('click', function () {
-    if (event.target.tagName === 'SPAN') {
-      var filterClass = event.target.classList[1];
-      effectLevelSlider.style.display = (filterClass === FILTERS.none.className) ? DISPLAY_NONE_CLASS : DISPLAY_BLOCK_CLASS;
-      imageUploadPreview.className = filterClass;
-      imageUploadPreview.style.filter = null;
-      effectLevelPin.style.left = effectLevelLine.offsetWidth + DEFAULT_UNIT;
-      effeectLevelValueInput.value = effectLevelPin.offsetLeft * 100 / effectLevelLine.offsetWidth;
-      effectLevelDepth.style.width = effeectLevelValueInput.value + RELATIVE_UNIT;
-    }
-  });
+  // effectsPreivewList.addEventListener('click', function () {
+  //   if (event.target.tagName === 'SPAN') {
+  //     var filterClass = event.target.classList[1];
+  //     effectLevelSlider.style.display = (filterClass === FILTERS.none.className) ? DISPLAY_NONE_CLASS : DISPLAY_BLOCK_CLASS;
+  //     imageUploadPreview.className = filterClass;
+  //     imageUploadPreview.style.filter = null;
+  //     effectLevelPin.style.left = effectLevelLine.offsetWidth + DEFAULT_UNIT;
+  //     effeectLevelValueInput.value = effectLevelPin.offsetLeft * 100 / effectLevelLine.offsetWidth;
+  //     effectLevelDepth.style.width = effeectLevelValueInput.value + RELATIVE_UNIT;
+  //   }
+  // });
+
+  window.effectsPreivewListHeadler(effectsPreivewList);
 
   var changeScaleUploadImage = function (sign) {
     scaleControlValue.value = Math.max(
@@ -265,46 +267,46 @@
     }
   });
 
-  effectLevelPin.addEventListener('mousedown', function (evt) {
-    var effectLevelLineCoords = effectLevelLine.getBoundingClientRect();
-    var barWidth = effectLevelLine.offsetWidth;
-    var startCoords = evt.clientX;
-    var onMouseMove = function (moveEvt) {
-      moveEvt.preventDefault();
-      var shift = startCoords - moveEvt.clientX;
-      startCoords = moveEvt.clientX;
-      if (moveEvt.clientX > effectLevelLineCoords.right) {
-        effectLevelPin.style.left = barWidth + DEFAULT_UNIT;
-        startCoords = effectLevelLineCoords.right;
-      } else if (moveEvt.clientX < effectLevelLineCoords.left) {
-        effectLevelPin.style.left = MIN_EFFECT_LEVEL_VALUE + DEFAULT_UNIT;
-        startCoords = effectLevelLineCoords.left;
-      } else {
-        effectLevelPin.style.left = (effectLevelPin.offsetLeft - shift) + DEFAULT_UNIT;
-      }
-      effeectLevelValueInput.value = effectLevelPin.offsetLeft * 100 / barWidth;
+  // effectLevelPin.addEventListener('mousedown', function (evt) {
+  //   var effectLevelLineCoords = effectLevelLine.getBoundingClientRect();
+  //   var barWidth = effectLevelLine.offsetWidth;
+  //   var startCoords = evt.clientX;
+  //   var onMouseMove = function (moveEvt) {
+  //     moveEvt.preventDefault();
+  //     var shift = startCoords - moveEvt.clientX;
+  //     startCoords = moveEvt.clientX;
+  //     if (moveEvt.clientX > effectLevelLineCoords.right) {
+  //       effectLevelPin.style.left = barWidth + DEFAULT_UNIT;
+  //       startCoords = effectLevelLineCoords.right;
+  //     } else if (moveEvt.clientX < effectLevelLineCoords.left) {
+  //       effectLevelPin.style.left = MIN_EFFECT_LEVEL_VALUE + DEFAULT_UNIT;
+  //       startCoords = effectLevelLineCoords.left;
+  //     } else {
+  //       effectLevelPin.style.left = (effectLevelPin.offsetLeft - shift) + DEFAULT_UNIT;
+  //     }
+  //     effeectLevelValueInput.value = effectLevelPin.offsetLeft * 100 / barWidth;
 
-      effectLevelDepth.style.width = effeectLevelValueInput.value + RELATIVE_UNIT;
+  //     effectLevelDepth.style.width = effeectLevelValueInput.value + RELATIVE_UNIT;
 
-      for (i in FILTERS) {
-        if (imageUploadPreview.className === FILTERS[i].className) {
-          var filterWidth = effeectLevelValueInput.value * FILTERS[i].maxValue / 100;
-          imageUploadPreview.style.filter = FILTERS[i].filter + '(' + filterWidth + FILTERS[i].filterUnit + ')';
-        }
-      }
+  //     for (i in FILTERS) {
+  //       if (imageUploadPreview.className === FILTERS[i].className) {
+  //         var filterWidth = effeectLevelValueInput.value * FILTERS[i].maxValue / 100;
+  //         imageUploadPreview.style.filter = FILTERS[i].filter + '(' + filterWidth + FILTERS[i].filterUnit + ')';
+  //       }
+  //     }
 
-    };
+  //   };
 
-    var onMouseUp = function (upEvt) {
-      upEvt.preventDefault();
+  //   var onMouseUp = function (upEvt) {
+  //     upEvt.preventDefault();
 
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
-    };
+  //     document.removeEventListener('mousemove', onMouseMove);
+  //     document.removeEventListener('mouseup', onMouseUp);
+  //   };
 
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
+  //   document.addEventListener('mousemove', onMouseMove);
+  //   document.addEventListener('mouseup', onMouseUp);
 
-  });
+  // });
 
 })();
