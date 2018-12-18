@@ -43,4 +43,20 @@
   window.data = {
     Selectors: Selectors
   };
+
+  window.data.getRandomInteger = function (min, max) {
+    var randomInteger = Math.floor(Math.random() * (max - min) + min);
+    return randomInteger;
+  };
+
+  window.data.generateSubCollection = function (inputCollection, size) {
+    var tempArray = inputCollection.slice();
+    var subArray = [];
+    for (var i = 0; i < size; i++) {
+      var rnd = window.data.getRandomInteger(0, tempArray.length);
+      var tempElement = tempArray.splice(rnd, 1);
+      subArray = subArray.concat(tempElement);
+    }
+    return subArray;
+  };
 })();

@@ -28,9 +28,9 @@
   window.createPhotoInfo = function (elementCount) {
     var newPhotoInfo = {};
     newPhotoInfo.url = 'photos/' + elementCount.toString() + '.jpg';
-    newPhotoInfo.likes = window.getRandomInteger(LIKES_MIN_COUNT, LIKES_MAX_COUNT + 1);
-    newPhotoInfo.comments = window.generateSubCollection(COMMENTS, window.getRandomInteger(1, COMMENTS_COUNT + 1));
-    newPhotoInfo.description = DESCRIPTIONS[window.getRandomInteger(0, DESCRIPTIONS.length)];
+    newPhotoInfo.likes = window.data.getRandomInteger(LIKES_MIN_COUNT, LIKES_MAX_COUNT + 1);
+    newPhotoInfo.comments = window.data.generateSubCollection(COMMENTS, window.data.getRandomInteger(1, COMMENTS_COUNT + 1));
+    newPhotoInfo.description = DESCRIPTIONS[window.data.getRandomInteger(0, DESCRIPTIONS.length)];
     return newPhotoInfo;
   };
 

@@ -13,7 +13,7 @@
 
   var renderBigUserPictureComments = function (n, picture) {
     var newElement = socialComments[0].cloneNode(true);
-    newElement.querySelector(window.data.Selectors.BIG_PICTURE_SOCIAL_PICTURE).src = 'img/avatar-' + window.getRandomInteger(1, 7).toString() + '.svg';
+    newElement.querySelector(window.data.Selectors.BIG_PICTURE_SOCIAL_PICTURE).src = 'img/avatar-' + window.data.getRandomInteger(1, 7).toString() + '.svg';
     newElement.querySelector(window.data.Selectors.BIG_PICTURE_SOCIAL_TEXT).textContent = picture.comments[n];
     return newElement;
   };
