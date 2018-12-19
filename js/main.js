@@ -2,6 +2,8 @@
 
 (function () {
   var PHOTOS_COUNT = 25;
+  var URL = 'https://js.dump.academy/kekstagram/data';
+
 
   var Selectors = {
     PICTURES_LIST: '.pictures',
@@ -27,6 +29,15 @@
     fragment.appendChild(window.thumbnails.renderUserPicture(photosInfoList[i]));
   }
 
+  var onSuccess = function (data) {
+    console.log(data);
+  };
+
+  var onError = function (message) {
+    console.log(message);
+  };
+
+
   picturesContainer.appendChild(fragment);
 
   var picturesList = picturesContainer.querySelectorAll(Selectors.PICTURES_LIST_ITEM);
@@ -44,4 +55,6 @@
 
   window.validationinput.hashtagsInputHandle(hashtagsInput);
   window.validationinput.commentInputHandle(commentInput);
+
+  window.backend.load(URL, onSuccess, onError);
 })();
