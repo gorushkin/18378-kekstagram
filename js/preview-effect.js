@@ -55,6 +55,7 @@
     SCALE_CONTROL_VALUE: '.scale__control--value'
   };
 
+  var DEFAULT_PIN_POSITION = 20;
   var DEFAULT_UNIT = 'px';
   var RELATIVE_UNIT = '%';
   var MIN_EFFECT_LEVEL_VALUE = 0;
@@ -92,7 +93,7 @@
       } else {
         effectLevelPin.style.left = (effectLevelPin.offsetLeft - shift) + DEFAULT_UNIT;
       }
-      effectLevelValueInput.value = effectLevelPin.offsetLeft * 100 / barWidth;
+      effectLevelValueInput.value = Math.floor(effectLevelPin.offsetLeft * 100 / barWidth);
 
       effectLevelDepth.style.width = effectLevelValueInput.value + RELATIVE_UNIT;
 
@@ -151,6 +152,9 @@
     filterReset: function (element) {
       element.className = Filters.NONE.className;
       element.style.filter = null;
+      effectLevelValueInput.value = 20;
+      effectLevelPin.style.left = effectLevelValueInput.value + RELATIVE_UNIT;
+      effectLevelDepth.style.width = effectLevelValueInput.value + RELATIVE_UNIT;
     }
   };
 })();
