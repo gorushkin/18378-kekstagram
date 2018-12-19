@@ -84,6 +84,7 @@
   var onError = function (message) {
     window.editorwindow.closeUploadPopup();
     renderMessage(errorTemplate);
+    console.log(message);
   };
 
   imageUploadForm.addEventListener('submit', function (evt) {

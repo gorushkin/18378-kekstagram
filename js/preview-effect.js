@@ -126,7 +126,7 @@
 
   window.previeweffects = {
     effectsPreivewListHandle: function (element) {
-      element.addEventListener('click', function () {
+      element.addEventListener('click', function (event) {
         if (event.target.tagName === 'INPUT') {
           var effect = event.target.value.toUpperCase();
           effectLevelSlider.style.display = (Filters[effect].hideSlider) ? DISPLAY_NONE_CLASS : DISPLAY_BLOCK_CLASS;
