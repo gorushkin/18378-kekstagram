@@ -1,9 +1,7 @@
 'use strict';
 
 (function () {
-  var PHOTOS_COUNT = 25;
   var URL = 'https://js.dump.academy/kekstagram/data';
-
 
   var Selectors = {
     PICTURES_LIST: '.pictures',
@@ -20,8 +18,6 @@
 
   imageUploadPopup = imageUploadPopup;
 
-  var photosInfoList = [];
-
   var fragment = document.createDocumentFragment();
 
   var onSuccess = function (data) {
@@ -30,6 +26,18 @@
     }
 
     picturesContainer.appendChild(fragment);
+    var picturesList = picturesContainer.querySelectorAll(Selectors.PICTURES_LIST_ITEM);
+
+    var openThumbnailImage = function (n) {
+      picturesList[n].addEventListener('click', function () {
+        window.fullimagewindows.renderBigUserPicture(data[n]);
+        window.fullimagewindows.openBigPicture();
+      });
+    };
+
+    for (i = 0; i < picturesList.length; i++) {
+      openThumbnailImage(i);
+    }
 
   };
 
@@ -38,19 +46,6 @@
   };
 
   window.backend.load(URL, onSuccess, onError);
-
-  var picturesList = picturesContainer.querySelectorAll(Selectors.PICTURES_LIST_ITEM);
-
-  var openThumbnailImage = function (n) {
-    picturesList[n].addEventListener('click', function () {
-      window.fullimagewindows.renderBigUserPicture(photosInfoList[n]);
-      window.fullimagewindows.openBigPicture();
-    });
-  };
-
-  for (var i = 0; i < picturesList.length; i++) {
-    openThumbnailImage(i);
-  }
 
   window.validationinput.hashtagsInputHandle(hashtagsInput);
   window.validationinput.commentInputHandle(commentInput);
