@@ -17,6 +17,16 @@
         }
       });
 
+      xhr.addEventListener('error', function () {
+        onError('Произошла ошибка соединения');
+      });
+
+      xhr.addEventListener('timeout', function () {
+        onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
+      });
+
+      xhr.timeout = 10000; // 10s
+
       xhr.send();
     }
   };
