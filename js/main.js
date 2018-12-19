@@ -24,21 +24,20 @@
 
   var fragment = document.createDocumentFragment();
 
-  for (var i = 0; i < PHOTOS_COUNT; i++) {
-    photosInfoList.push(window.thumbnails.createPhotoInfo(i + 1));
-    fragment.appendChild(window.thumbnails.renderUserPicture(photosInfoList[i]));
-  }
-
   var onSuccess = function (data) {
-    console.log(data);
+    for (var i = 0; i < data.length; i++) {
+      fragment.appendChild(window.thumbnails.renderUserPicture(data[i]));
+    }
+
+    picturesContainer.appendChild(fragment);
+
   };
 
   var onError = function (message) {
     console.log(message);
   };
 
-
-  picturesContainer.appendChild(fragment);
+  window.backend.load(URL, onSuccess, onError);
 
   var picturesList = picturesContainer.querySelectorAll(Selectors.PICTURES_LIST_ITEM);
 
@@ -49,12 +48,11 @@
     });
   };
 
-  for (i = 0; i < picturesList.length; i++) {
+  for (var i = 0; i < picturesList.length; i++) {
     openThumbnailImage(i);
   }
 
   window.validationinput.hashtagsInputHandle(hashtagsInput);
   window.validationinput.commentInputHandle(commentInput);
 
-  window.backend.load(URL, onSuccess, onError);
 })();
