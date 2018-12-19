@@ -41,7 +41,7 @@
       bigPicture.querySelector(Selectors.BIG_PICTURE_LIKES_COUNT).textContent = element.likes;
       bigPicture.querySelector(Selectors.BIG_PICTURE_COMMENTS_COUNT).textContent = element.comments.length;
       var fragment = document.createDocumentFragment();
-      for (var i = 0; i < MAX_COMMENTS_COUNT; i++) {
+      for (var i = 0; i < Math.min(MAX_COMMENTS_COUNT, element.comments.length); i++) {
         fragment.appendChild(renderBigUserPictureComments(element.comments[i]));
       }
       socialCommentsList.appendChild(fragment);

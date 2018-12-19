@@ -1,8 +1,6 @@
 'use strict';
 
 (function () {
-  var URL = 'https://js.dump.academy/kekstagram/data';
-
   var Selectors = {
     PICTURES_LIST: '.pictures',
     IMAGE_UPLOAD_POPUP: '.img-upload__overlay',
@@ -45,7 +43,7 @@
     console.log(message);
   };
 
-  window.backend.load(URL, onSuccess, onError);
+  window.backend.load(onSuccess, onError);
 
   window.validationinput.hashtagsInputHandle(hashtagsInput);
   window.validationinput.commentInputHandle(commentInput);

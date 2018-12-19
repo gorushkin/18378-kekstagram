@@ -26,6 +26,12 @@
         && evt.target.tagName !== DESCRIPTION_INPUT_NAME) {
         window.fullimagewindows.closeBigPicture();
         window.editorwindow.closeUploadPopup();
+
+      }
+    },
+    tempEscape: function (evt, callback) {
+      if (evt.keyCode === ESC_KEYCODE) {
+        callback();
       }
     }
   };
