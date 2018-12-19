@@ -39,8 +39,7 @@
 
   };
 
-  var onError = function (message) {
-    console.log(message);
+  var onError = function () {
   };
 
   window.backend.load(onSuccess, onError);

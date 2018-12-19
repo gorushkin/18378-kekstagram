@@ -55,7 +55,6 @@
     SCALE_CONTROL_VALUE: '.scale__control--value'
   };
 
-  var DEFAULT_PIN_POSITION = 20;
   var DEFAULT_UNIT = 'px';
   var RELATIVE_UNIT = '%';
   var MIN_EFFECT_LEVEL_VALUE = 0;

@@ -81,16 +81,13 @@
     renderMessage(successTemplate);
   };
 
-  var onError = function (message) {
+  var onError = function () {
     window.editorwindow.closeUploadPopup();
     renderMessage(errorTemplate);
-    console.log(message);
   };
 
   imageUploadForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    console.log(imageUploadForm);
-
     window.backend.upload(new FormData(imageUploadForm), onSuccess, onError);
   });
 
