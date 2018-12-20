@@ -5,6 +5,7 @@
   var DEFAULT_SCALE_CONTROL_VALUE = 100;
   var BUTTON_TAG = 'BUTTON';
   var SECTION_TAG = 'SECTION';
+  var ESC_KEYCODE = 27;
 
   var Selectors = {
     IMAGE_UPLOAD_POPUP: '.img-upload__overlay',
@@ -63,7 +64,7 @@
     main.appendChild(element);
 
     document.addEventListener('keydown', function (evt) {
-      window.util.tempEscape(evt, function () {
+      window.util.onPopupKeyPressNew(evt, ESC_KEYCODE, function () {
         window.editorwindow.closeMessage(element);
       });
     });
