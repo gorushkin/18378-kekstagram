@@ -3,6 +3,8 @@
 (function () {
   var HIDE_CLASS = 'hidden';
   var DEFAULT_SCALE_CONTROL_VALUE = 100;
+  var BUTTON_TAG = 'BUTTON';
+  var SECTION_TAG = 'SECTION';
 
   var Selectors = {
     IMAGE_UPLOAD_POPUP: '.img-upload__overlay',
@@ -68,8 +70,8 @@
 
     element.addEventListener('click', function (evt) {
       evt.preventDefault();
-      if (evt.target.tagName === 'BUTTON'
-      || evt.target.tagName === 'SECTION') {
+      if (evt.target.tagName === BUTTON_TAG
+      || evt.target.tagName === SECTION_TAG) {
         window.editorwindow.closeMessage(element);
       }
     });
