@@ -9,6 +9,9 @@
     IMG_UPLOAD_COMMENT: '.text__description',
   };
 
+  var GETURL = 'https://js.dump.academy/kekstagram/data';
+
+
   var picturesContainer = document.querySelector(Selectors.PICTURES_LIST);
   var imageUploadPopup = document.querySelector(Selectors.IMAGE_UPLOAD_POPUP);
   var hashtagsInput = imageUploadPopup.querySelector(Selectors.IMAGE_UPLOAD_HASHTAGS);
@@ -39,10 +42,12 @@
 
   };
 
-  var onError = function () {
+  var onError = function (f) {
+    console.log(f);
+
   };
 
-  window.backend.load(onSuccess, onError);
+  window.main(GETURL, 'GET', onSuccess, onError);
 
   window.validationinput.hashtagsInputHandle(hashtagsInput);
   window.validationinput.commentInputHandle(commentInput);

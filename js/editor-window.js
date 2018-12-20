@@ -8,6 +8,8 @@
   var ESC_KEYCODE = 27;
   var HASHTAG_INPUT_NAME = 'hashtags';
   var DESCRIPTION_INPUT_NAME = 'description';
+  var POSTURL = 'https://js.dump.academy/kekstagram';
+
 
   var Selectors = {
     IMAGE_UPLOAD_POPUP: '.img-upload__overlay',
@@ -42,7 +44,7 @@
   var errorTemplate = document.querySelector(Selectors.ERROR_LOAD_TEMPLATE).content.querySelector(Selectors.ERROR_LOAD_WINDOW);
   var successTemplate = document.querySelector(Selectors.SUCCESS_LOAD_TEMPLATE).content.querySelector(Selectors.SUCCESS_LOAD_WINDOW);
 
-  var onPopupKeyPress = function (evt) {
+  var closeEditorOnKeyPress = function (evt) {
     window.util.getCustomKeyHandler(evt, ESC_KEYCODE, function () {
       if (evt.target.tagName !== HASHTAG_INPUT_NAME
         && evt.target.tagName !== DESCRIPTION_INPUT_NAME) {
@@ -53,14 +55,14 @@
 
   var openUploadPopup = function () {
     imageUploadPopup.classList.remove(HIDE_CLASS);
-    document.addEventListener('keydown', onPopupKeyPress);
+    document.addEventListener('keydown', closeEditorOnKeyPress);
     scaleControlValue.value = DEFAULT_SCALE_CONTROL_VALUE;
     imageUploadPreview.style.transform = 'scale(' + DEFAULT_SCALE_CONTROL_VALUE / 100 + ')';
   };
 
   var closeUploadPopup = function () {
     imageUploadPopup.classList.add(HIDE_CLASS);
-    document.removeEventListener('keydown', onPopupKeyPress);
+    document.removeEventListener('keydown', closeEditorOnKeyPress);
     imageUploadForm.reset();
     window.previeweffects.filterReset(imageUploadPreview);
   };
@@ -102,6 +104,7 @@
   imageUploadForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
     window.backend.upload(new FormData(imageUploadForm), onSuccess, onError);
+    // window.backend.newUpLoad(onSuccess, onError, new FormData(imageUploadForm));
   });
 
   window.previeweffects.effectsPreivewListHandle(effectsPreivewList);
