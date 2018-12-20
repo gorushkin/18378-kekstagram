@@ -92,7 +92,7 @@
       } else {
         effectLevelPin.style.left = (effectLevelPin.offsetLeft - shift) + DEFAULT_UNIT;
       }
-      effectLevelValueInput.value = effectLevelPin.offsetLeft * 100 / barWidth;
+      effectLevelValueInput.value = Math.floor(effectLevelPin.offsetLeft * 100 / barWidth);
 
       effectLevelDepth.style.width = effectLevelValueInput.value + RELATIVE_UNIT;
 
@@ -126,7 +126,7 @@
 
   window.previeweffects = {
     effectsPreivewListHandle: function (element) {
-      element.addEventListener('click', function () {
+      element.addEventListener('click', function (event) {
         if (event.target.tagName === 'INPUT') {
           var effect = event.target.value.toUpperCase();
           effectLevelSlider.style.display = (Filters[effect].hideSlider) ? DISPLAY_NONE_CLASS : DISPLAY_BLOCK_CLASS;
@@ -151,6 +151,9 @@
     filterReset: function (element) {
       element.className = Filters.NONE.className;
       element.style.filter = null;
+      effectLevelValueInput.value = 20;
+      effectLevelPin.style.left = effectLevelValueInput.value + RELATIVE_UNIT;
+      effectLevelDepth.style.width = effectLevelValueInput.value + RELATIVE_UNIT;
     }
   };
 })();
