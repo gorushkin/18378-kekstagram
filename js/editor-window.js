@@ -103,7 +103,7 @@
 
   imageUploadForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    window.backend.upload(new FormData(imageUploadForm), onSuccess, onError);
+    window.main(POSTURL, 'POST', onSuccess, onError, new FormData(imageUploadForm));
     // window.backend.newUpLoad(onSuccess, onError, new FormData(imageUploadForm));
   });
 

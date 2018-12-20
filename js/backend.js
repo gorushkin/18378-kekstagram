@@ -41,9 +41,9 @@
     newLoad: function (onLoad, onError) {
       window.main(GETURL, 'GET', onLoad, onError);
     },
-    // newUpLoad: function (onLoad, onError, data) {
-    //   window.main(POSTURL, 'POST', onLoad, onError, data);
-    // },
+    newUpLoad: function (onLoad, onError, data) {
+      window.main(POSTURL, 'POST', onLoad, onError, data);
+    },
     upload: function (data, onLoad, onError) {
       var xhr = new XMLHttpRequest();
       xhr.responseType = 'json';
