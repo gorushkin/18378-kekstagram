@@ -3,8 +3,6 @@
 (function () {
   var HIDE_CLASS = 'hidden';
   var DEFAULT_SCALE_CONTROL_VALUE = 100;
-  var BUTTON_TAG = 'BUTTON';
-  var SECTION_TAG = 'SECTION';
   var ESC_KEYCODE = 27;
   var HASHTAG_INPUT_NAME = 'hashtags';
   var DESCRIPTION_INPUT_NAME = 'description';
@@ -26,8 +24,7 @@
     ERROR_LOAD_WINDOW_CLOSE: '.error__button',
     SUCCESS_LOAD_TEMPLATE: '#success',
     SUCCESS_LOAD_WINDOW: '.success',
-    SUCCESS_LOAD_WINDOW_CLOSE: '.success__button',
-    MAIN: 'main'
+    SUCCESS_LOAD_WINDOW_CLOSE: '.success__button'
   };
 
   var imageUploadPopup = document.querySelector(Selectors.IMAGE_UPLOAD_POPUP);
@@ -39,7 +36,6 @@
   var scaleControlBigger = imageUploadPopup.querySelector(Selectors.SCALE_CONTROL_BIGGER);
   var imageUploadInput = document.querySelector(Selectors.IMAGE_UPLOAD_INPUT);
   var imageUploadCloseButton = imageUploadPopup.querySelector(Selectors.IMAGE_UPLOAD_POPUP_CLOSE_BUTTON);
-  var main = document.querySelector(Selectors.MAIN);
 
   var errorTemplate = document.querySelector(Selectors.ERROR_LOAD_TEMPLATE).content.querySelector(Selectors.ERROR_LOAD_WINDOW);
   var successTemplate = document.querySelector(Selectors.SUCCESS_LOAD_TEMPLATE).content.querySelector(Selectors.SUCCESS_LOAD_WINDOW);
@@ -67,38 +63,14 @@
     window.previeweffects.filterReset(imageUploadPreview);
   };
 
-  var closeMessage = function (element) {
-    element.remove();
-  };
-
-  var renderMessage = function (section) {
-    var element = section.cloneNode(true);
-    main.appendChild(element);
-
-    document.addEventListener('keydown', function (evt) {
-      window.util.getCustomKeyHandler(evt, ESC_KEYCODE, function () {
-        closeMessage(element);
-      });
-    });
-
-    element.addEventListener('click', function (evt) {
-      evt.preventDefault();
-      if (evt.target.tagName === BUTTON_TAG
-      || evt.target.tagName === SECTION_TAG) {
-        closeMessage(element);
-      }
-    });
-
-  };
-
   var onSuccess = function () {
     closeUploadPopup();
-    renderMessage(successTemplate);
+    window.messagewindow.renderMessage(successTemplate);
   };
 
   var onError = function () {
     closeUploadPopup();
-    renderMessage(errorTemplate);
+    window.messagewindow.renderMessage(errorTemplate);
   };
 
   imageUploadForm.addEventListener('submit', function (evt) {
