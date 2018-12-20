@@ -4,6 +4,8 @@
   var HIDE_CLASS = 'hidden';
   var VISUALLY_HIDDEN_CLASS = 'visually-hidden';
   var MAX_COMMENTS_COUNT = 5;
+  var ESC_KEYCODE = 27;
+
 
   var Selectors = {
     BIG_PICTURE: '.big-picture',
@@ -34,6 +36,12 @@
     return newElement;
   };
 
+  var onPopupKeyPress = function (evt) {
+    window.util.getCustomKeyHandler(evt, ESC_KEYCODE, function () {
+      closeBigPicture();
+    });
+  };
+
   window.fullimagewindows = {
     renderBigUserPicture: function (element) {
       socialCommentsList.innerHTML = '';
@@ -49,12 +57,13 @@
     },
     openBigPicture: function () {
       bigPicture.classList.remove(HIDE_CLASS);
-      document.addEventListener('keydown', window.util.onPopupKeyPress);
+      document.addEventListener('keydown', onPopupKeyPress);
     },
-    closeBigPicture: function () {
-      bigPicture.classList.add(HIDE_CLASS);
-      document.removeEventListener('keydown', window.util.onPopupKeyPress);
-    }
+  };
+
+  var closeBigPicture = function () {
+    bigPicture.classList.add(HIDE_CLASS);
+    document.removeEventListener('keydown', onPopupKeyPress);
   };
 
   socialCommentCount.classList.add(VISUALLY_HIDDEN_CLASS);
