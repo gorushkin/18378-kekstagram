@@ -42,9 +42,7 @@
 
   };
 
-  var onError = function (f) {
-    console.log(f);
-
+  var onError = function () {
   };
 
   window.backend.getPostData(GETURL, 'GET', onSuccess, onError);
