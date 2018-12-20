@@ -47,7 +47,7 @@
 
   };
 
-  window.main(GETURL, 'GET', onSuccess, onError);
+  window.backend.getPostData(GETURL, 'GET', onSuccess, onError);
 
   window.validationinput.hashtagsInputHandle(hashtagsInput);
   window.validationinput.commentInputHandle(commentInput);
