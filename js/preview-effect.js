@@ -126,9 +126,9 @@
 
   window.previeweffects = {
     effectsPreivewListHandle: function (element) {
-      element.addEventListener('click', function (event) {
-        if (event.target.tagName === 'INPUT') {
-          var effect = event.target.value.toUpperCase();
+      element.addEventListener('click', function (evt) {
+        if (evt.target.tagName === 'INPUT') {
+          var effect = evt.target.value.toUpperCase();
           effectLevelSlider.style.display = (Filters[effect].hideSlider) ? DISPLAY_NONE_CLASS : DISPLAY_BLOCK_CLASS;
           imageUploadPreview.className = Filters[effect].className;
           imageUploadPreview.style.filter = null;
