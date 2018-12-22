@@ -70,6 +70,6 @@
   commentLoader.classList.add(VISUALLY_HIDDEN_CLASS);
 
 
-  bigPictureClose.addEventListener('click', window.fullimagewindows.closeBigPicture);
+  bigPictureClose.addEventListener('click', closeBigPicture);
 
 })();
