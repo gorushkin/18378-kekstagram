@@ -1,6 +1,9 @@
 'use strict';
 
 (function () {
+
+  var DEBOUNCE_INTERVAL = 500;
+
   var Selectors = {
     PICTURES_LIST: '.pictures',
     IMAGE_UPLOAD_POPUP: '.img-upload__overlay',
@@ -53,7 +56,7 @@
 
     picturesContainer.appendChild(fragment);
 
-    imageFltersContainer.classList.remove('img-filters--inactive');
+    window.onload = imageFltersContainer.classList.remove('img-filters--inactive');
 
     var picturesList = picturesContainer.querySelectorAll(Selectors.PICTURES_LIST_ITEM);
 
@@ -87,7 +90,7 @@
         }
         lastTimeout = window.setTimeout(function () {
           renderPicturList(ImgFilter[filterId].sortMethod(data));
-        }, 500);
+        }, DEBOUNCE_INTERVAL);
       }
     });
 
