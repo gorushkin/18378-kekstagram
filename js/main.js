@@ -72,7 +72,6 @@
   };
 
   var onSuccess = function (data) {
-    window.onload = imageFltersContainer.classList.remove('img-filters--inactive');
 
     renderPictureList(data);
 
@@ -92,7 +91,6 @@
         }, DEBOUNCE_INTERVAL);
       }
     });
-
   };
 
   var onError = function () {
@@ -103,4 +101,7 @@
   window.validationinput.hashtagsInputHandle(hashtagsInput);
   window.validationinput.commentInputHandle(commentInput);
 
+  window.addEventListener('load', function () {
+    imageFltersContainer.classList.remove('img-filters--inactive');
+  });
 })();
