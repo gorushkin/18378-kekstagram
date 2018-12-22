@@ -44,8 +44,8 @@
   var hashtagsInput = imageUploadPopup.querySelector(Selectors.IMAGE_UPLOAD_HASHTAGS);
   var commentInput = imageUploadPopup.querySelector(Selectors.IMG_UPLOAD_COMMENT);
 
-
   var fragment = document.createDocumentFragment();
+
   var lastTimeout;
   var renderPicturList = function (data) {
 
@@ -54,7 +54,6 @@
     }
 
     picturesContainer.appendChild(fragment);
-
     window.onload = imageFltersContainer.classList.remove('img-filters--inactive');
 
     var picturesList = picturesContainer.querySelectorAll(Selectors.PICTURES_LIST_ITEM);
