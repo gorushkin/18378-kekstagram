@@ -1,12 +1,12 @@
 'use strict';
 
 (function () {
-  var TIME_OUT = 10000;
-  var GOOD_STATUS = 200;
-  var ERROR_MESSAGE_STATUS = 'Статус ответа: ';
-  var ERROR_MESSAGE_CONNECT = 'Произошла ошибка соединения';
-  var ERROR_MESSAGE_TIME_OUT = 'Запрос не успел выполниться за ';
-  var TIME_UNIT = 'мс';
+  var TIMEOUT = 10000;
+  var OK_STATUS = 200;
+  var ERROR_STATUS_MESSAGE = 'Статус ответа: ';
+  var ERROR_CONNECT_MESSAGE = 'Произошла ошибка соединения';
+  var ERROR_TIMEOUT_MESSAGE = 'Запрос не успел выполниться за ';
+  var TIME_UNIT = ' мс';
 
   window.backend = {
     getPostData: function (url, method, onLoad, onError, data) {
@@ -15,22 +15,22 @@
       xhr.open(method, url);
 
       xhr.addEventListener('load', function () {
-        if (xhr.status === GOOD_STATUS) {
+        if (xhr.status === OK_STATUS) {
           onLoad(xhr.response);
         } else {
-          onError(ERROR_MESSAGE_STATUS + xhr.status + ' ' + xhr.statusText);
+          onError(ERROR_STATUS_MESSAGE + xhr.status + ' ' + xhr.statusText);
         }
       });
 
       xhr.addEventListener('error', function () {
-        onError(ERROR_MESSAGE_CONNECT);
+        onError(ERROR_CONNECT_MESSAGE);
       });
 
       xhr.addEventListener('timeout', function () {
-        onError(ERROR_MESSAGE_TIME_OUT + xhr.timeout + TIME_UNIT);
+        onError(ERROR_TIMEOUT_MESSAGE + xhr.timeout / 1000 + TIME_UNIT);
       });
 
-      xhr.timeout = TIME_OUT;
+      xhr.timeout = TIMEOUT;
       xhr.send(data);
     }
   };
