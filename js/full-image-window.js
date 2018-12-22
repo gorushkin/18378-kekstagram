@@ -47,14 +47,16 @@
 
     var commentListStart = 0;
     var commentListFinish = MAX_COMMENTS_COUNT;
+
     var countClick = 1;
+    commentListFinish = Math.min(MAX_COMMENTS_COUNT * countClick, comments.length);
 
     var commentLoaderClick = function (evt) {
       evt.preventDefault();
       countClick = countClick + 1;
       commentListStart += MAX_COMMENTS_COUNT;
       commentListFinish = Math.min(MAX_COMMENTS_COUNT * countClick, comments.length);
-      socialCommentCount.innerHTML = commentListFinish - (MAX_COMMENTS_COUNT * (countClick - 1)) + ' из <span class="comments-count">' + comments.length + '</span> комментариев';
+      socialCommentCount.innerHTML = commentListFinish - commentListStart + ' из <span class="comments-count">' + comments.length + '</span> комментариев';
       renderBigUserPictureComments(commentListStart, commentListFinish, comments);
       if (comments.length <= countClick * MAX_COMMENTS_COUNT) {
         commentLoader.removeEventListener('click', commentLoaderClick);
@@ -68,7 +70,7 @@
     } else {
       commentLoader.classList.remove(VISUALLY_HIDDEN_CLASS);
     }
-    socialCommentCount.innerHTML = MAX_COMMENTS_COUNT + ' из <span class="comments-count">' + comments.length + '</span> комментариев';
+    socialCommentCount.innerHTML = commentListFinish + ' из <span class="comments-count">' + comments.length + '</span> комментариев';
     renderBigUserPictureComments(commentListStart, commentListFinish, comments);
   };
 
