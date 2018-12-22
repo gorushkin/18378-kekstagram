@@ -44,7 +44,6 @@
   var hashtagsInput = imageUploadPopup.querySelector(Selectors.IMAGE_UPLOAD_HASHTAGS);
   var commentInput = imageUploadPopup.querySelector(Selectors.IMG_UPLOAD_COMMENT);
 
-  imageUploadPopup = imageUploadPopup;
 
   var fragment = document.createDocumentFragment();
   var lastTimeout;
