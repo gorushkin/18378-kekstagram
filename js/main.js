@@ -47,14 +47,14 @@
   var fragment = document.createDocumentFragment();
 
   var lastTimeout;
-  var renderPicturList = function (data) {
+  var renderPictureList = function (data) {
 
     for (var i = 0; i < data.length; i++) {
       fragment.appendChild(window.thumbnails.renderUserPicture(data[i]));
     }
 
     picturesContainer.appendChild(fragment);
-    window.onload = imageFltersContainer.classList.remove('img-filters--inactive');
+
 
     var picturesList = picturesContainer.querySelectorAll(Selectors.PICTURES_LIST_ITEM);
 
@@ -72,8 +72,9 @@
   };
 
   var onSuccess = function (data) {
+    window.onload = imageFltersContainer.classList.remove('img-filters--inactive');
 
-    renderPicturList(data);
+    renderPictureList(data);
 
     imageFltersContainer.addEventListener('click', function (evt) {
       if (evt.target.tagName === 'BUTTON') {
@@ -87,7 +88,7 @@
           window.clearTimeout(lastTimeout);
         }
         lastTimeout = window.setTimeout(function () {
-          renderPicturList(ImgFilter[filterId].sortMethod(data));
+          renderPictureList(ImgFilter[filterId].sortMethod(data));
         }, DEBOUNCE_INTERVAL);
       }
     });
