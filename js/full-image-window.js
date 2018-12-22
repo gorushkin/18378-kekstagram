@@ -29,10 +29,10 @@
   var commentLoader = bigPicture.querySelector(Selectors.SOCIAL_COMMENT_LOADER);
   var bigPictureClose = bigPicture.querySelector(Selectors.BIG_PICTURE_CLOSE);
 
-  var renderBigUserPictureComments = function (a, b, comments) {
+  var renderBigUserPictureComments = function (start, end, comments) {
     socialCommentsList.innerHTML = '';
     var fragment = document.createDocumentFragment();
-    for (var i = a; i < b; i++) {
+    for (var i = start; i < end; i++) {
       var newElement = socialComments[0].cloneNode(true);
       newElement.querySelector(Selectors.BIG_PICTURE_SOCIAL_PICTURE).src = comments[i].avatar;
       newElement.querySelector(Selectors.BIG_PICTURE_SOCIAL_TEXT).textContent = comments[i].message;
@@ -47,7 +47,6 @@
 
     var commentListStart = 0;
     var commentListFinish = MAX_COMMENTS_COUNT;
-
     var countClick = 1;
     commentListFinish = Math.min(MAX_COMMENTS_COUNT * countClick, comments.length);
 

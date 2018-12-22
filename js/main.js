@@ -44,7 +44,7 @@
   imageUploadPopup = imageUploadPopup;
 
   var fragment = document.createDocumentFragment();
-
+  var lastTimeout;
   var renderPicturList = function (data) {
 
     for (var i = 0; i < data.length; i++) {
@@ -82,7 +82,12 @@
         evt.target.classList.add('img-filters__button--active');
         picturesContainer.innerHTML = '';
         var filterId = evt.target.id.toUpperCase().substring(evt.target.id.toUpperCase().indexOf('-') + 1);
-        renderPicturList(ImgFilter[filterId].sortMethod(data));
+        if (lastTimeout) {
+          window.clearTimeout(lastTimeout);
+        }
+        lastTimeout = window.setTimeout(function () {
+          renderPicturList(ImgFilter[filterId].sortMethod(data));
+        }, 500);
       }
     });
 
