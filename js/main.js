@@ -3,7 +3,7 @@
 (function () {
 
   var DEBOUNCE_INTERVAL = 500;
-  var IMG_FILTERS_BUTTON_ACTIVE = 'img-filters__button--active'
+  var IMG_FILTERS_BUTTON_ACTIVE = 'img-filters__button--active';
 
   var Selectors = {
     PICTURES_LIST: '.pictures',
