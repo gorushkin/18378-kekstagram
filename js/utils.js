@@ -2,15 +2,16 @@
 
 (function () {
   window.util = {
-    getRandomInteger: function (min, max) {
-      var randomInteger = Math.floor(Math.random() * (max - min) + min);
+    getRandomInteger: function (max) {
+      var MIN = 0;
+      var randomInteger = Math.floor(Math.random() * (max - MIN) + MIN);
       return randomInteger;
     },
     generateSubCollection: function (inputCollection, size) {
       var tempArray = inputCollection.slice();
       var subArray = [];
       for (var i = 0; i < size; i++) {
-        var rnd = window.util.getRandomInteger(0, tempArray.length);
+        var rnd = window.util.getRandomInteger(tempArray.length);
         var tempElement = tempArray.splice(rnd, 1);
         subArray = subArray.concat(tempElement);
       }

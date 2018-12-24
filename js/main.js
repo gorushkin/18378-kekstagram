@@ -3,6 +3,7 @@
 (function () {
 
   var DEBOUNCE_INTERVAL = 500;
+  var IMG_FILTERS_BUTTON_ACTIVE = 'img-filters__button--active';
 
   var Selectors = {
     PICTURES_LIST: '.pictures',
@@ -78,9 +79,9 @@
     imageFltersContainer.addEventListener('click', function (evt) {
       if (evt.target.tagName === 'BUTTON') {
         imageFltersBottons.forEach(function (it) {
-          it.classList.remove('img-filters__button--active');
+          it.classList.remove(IMG_FILTERS_BUTTON_ACTIVE);
         });
-        evt.target.classList.add('img-filters__button--active');
+        evt.target.classList.add(IMG_FILTERS_BUTTON_ACTIVE);
         picturesContainer.innerHTML = '';
         var filterId = evt.target.id.toUpperCase().substring(evt.target.id.toUpperCase().indexOf('-') + 1);
         if (lastTimeout) {

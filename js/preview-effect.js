@@ -44,6 +44,9 @@
       filterUnit: ''
     }
   };
+
+  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+
   var Selectors = {
     IMAGE_UPLOAD_POPUP: '.img-upload__overlay',
     EFFECT_LEVEL_LINE: '.effect-level__line',
@@ -52,7 +55,8 @@
     EFFECT_LEVEL_DEPTH: '.effect-level__depth',
     IMG_UPLOAD_EFFECT_LEVEL: '.img-upload__effect-level',
     IMAGE_UPLOAD_PREVEW: '.img-upload__preview img',
-    SCALE_CONTROL_VALUE: '.scale__control--value'
+    SCALE_CONTROL_VALUE: '.scale__control--value',
+    FILE_UPLOAD_INPUT: '#upload-file'
   };
 
   var DEFAULT_UNIT = 'px';
@@ -74,6 +78,28 @@
   var effectLevelSlider = imageUploadPopup.querySelector(Selectors.IMG_UPLOAD_EFFECT_LEVEL);
   var imageUploadPreview = imageUploadPopup.querySelector(Selectors.IMAGE_UPLOAD_PREVEW);
   var scaleControlValue = imageUploadPopup.querySelector(Selectors.SCALE_CONTROL_VALUE);
+  var fileChooser = document.querySelector(Selectors.FILE_UPLOAD_INPUT);
+
+
+  fileChooser.addEventListener('change', function () {
+    var file = fileChooser.files[0];
+    var fileName = file.name.toLowerCase();
+
+    var matches = FILE_TYPES.some(function (it) {
+      return fileName.endsWith(it);
+    });
+
+    if (matches) {
+      var reader = new FileReader();
+
+      reader.addEventListener('load', function () {
+        imageUploadPreview.src = reader.result;
+      });
+
+      reader.readAsDataURL(file);
+    }
+  });
+
 
   effectLevelPin.addEventListener('mousedown', function (evt) {
     var effectLevelLineCoords = effectLevelLine.getBoundingClientRect();
