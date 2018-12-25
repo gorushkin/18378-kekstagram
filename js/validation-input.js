@@ -1,11 +1,13 @@
 'use strict';
 
 (function () {
-  var MAX_HASHTAGS_COUNT = 5;
+  var HASHTAGS_MAX_COUNT = 5;
+  var HASHTAG_MIN_LENGTH = 1;
   var COMMENT_MAX_LENGTH = 140;
   var HASHTAG_MAX_LENGTH = 20;
   var HASHTAG_FIRST_SYMBOL = '#';
   var COMMENT_INPUT_ERROR_MESSAGE = 'Длина комментария не может составлять больше ' + COMMENT_MAX_LENGTH + ' символов';
+
   var HASHTAG_ERRORS_CODE = {
     noErrors: {
       errorCode: 0,
@@ -33,9 +35,8 @@
     }
   };
 
-
   var checkHashTagsCollection = function (line) {
-    if (line.length > MAX_HASHTAGS_COUNT) {
+    if (line.length > HASHTAGS_MAX_COUNT) {
       return HASHTAG_ERRORS_CODE.countLimit;
     }
     for (var i = 0; i < line.length; i++) {
@@ -48,7 +49,7 @@
         return HASHTAG_ERRORS_CODE.startWithHash;
       } else if (line[i].length > HASHTAG_MAX_LENGTH) {
         return HASHTAG_ERRORS_CODE.lengthLimit;
-      } else if (line[i].length === 1 && line[i][0] === HASHTAG_FIRST_SYMBOL) {
+      } else if (line[i].length === HASHTAG_MIN_LENGTH && line[i][0] === HASHTAG_FIRST_SYMBOL) {
         return HASHTAG_ERRORS_CODE.wrongContent;
       }
     }

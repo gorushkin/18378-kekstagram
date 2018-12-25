@@ -3,10 +3,13 @@
 (function () {
   var TIMEOUT = 10000;
   var OK_STATUS = 200;
-  var ERROR_STATUS_MESSAGE = 'Статус ответа: ';
-  var ERROR_CONNECT_MESSAGE = 'Произошла ошибка соединения';
-  var ERROR_TIMEOUT_MESSAGE = 'Запрос не успел выполниться за ';
   var TIME_UNIT = ' мс';
+
+  var Errors = {
+    STATUS_MESSAGE: 'Статус ответа: ',
+    CONNECT_MESSAGE: 'Произошла ошибка соединения',
+    TIMEOUT_MESSAGE: 'Запрос не успел выполниться за '
+  };
 
   window.backend = {
     getPostData: function (url, method, onLoad, onError, data) {
@@ -18,16 +21,16 @@
         if (xhr.status === OK_STATUS) {
           onLoad(xhr.response);
         } else {
-          onError(ERROR_STATUS_MESSAGE + xhr.status + ' ' + xhr.statusText);
+          onError(Errors.STATUS_MESSAGE + xhr.status + ' ' + xhr.statusText);
         }
       });
 
       xhr.addEventListener('error', function () {
-        onError(ERROR_CONNECT_MESSAGE);
+        onError(Errors.CONNECT_MESSAGE);
       });
 
       xhr.addEventListener('timeout', function () {
-        onError(ERROR_TIMEOUT_MESSAGE + xhr.timeout / 1000 + TIME_UNIT);
+        onError(Errors.TIMEOUT_MESSAGE + xhr.timeout / 1000 + TIME_UNIT);
       });
 
       xhr.timeout = TIMEOUT;
