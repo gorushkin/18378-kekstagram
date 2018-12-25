@@ -3,8 +3,7 @@
 (function () {
   window.util = {
     getRandomInteger: function (max) {
-      var MIN = 0;
-      var randomInteger = Math.floor(Math.random() * (max - MIN) + MIN);
+      var randomInteger = Math.floor(Math.random() * max);
       return randomInteger;
     },
     generateSubCollection: function (inputCollection, size) {
