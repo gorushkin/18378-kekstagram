@@ -3,12 +3,9 @@
 (function () {
   var BUTTON_TAG = 'BUTTON';
   var SECTION_TAG = 'SECTION';
+  var SELECTOR_MAIN = 'main';
 
-  var Selectors = {
-    MAIN: 'main',
-  };
-
-  var main = document.querySelector(Selectors.MAIN);
+  var main = document.querySelector(SELECTOR_MAIN);
 
 
   window.messagewindow = {
