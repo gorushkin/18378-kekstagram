@@ -60,6 +60,7 @@
   };
 
   var DEFAULT_UNIT = 'px';
+  var DEFAULT_EFFECT_LEVEL_VALUE = 20;
   var RELATIVE_UNIT = '%';
   var MIN_EFFECT_LEVEL_VALUE = 0;
   var DISPLAY_NONE_CLASS = 'none';
@@ -177,7 +178,7 @@
     filterReset: function (element) {
       element.className = Filters.NONE.className;
       element.style.filter = null;
-      effectLevelValueInput.value = 20;
+      effectLevelValueInput.value = DEFAULT_EFFECT_LEVEL_VALUE;
       effectLevelPin.style.left = effectLevelValueInput.value + RELATIVE_UNIT;
       effectLevelDepth.style.width = effectLevelValueInput.value + RELATIVE_UNIT;
     }
