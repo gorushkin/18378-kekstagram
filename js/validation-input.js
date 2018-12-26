@@ -32,14 +32,28 @@
     lengthLimit: {
       errorCode: 5,
       errorText: 'Максимальная длина одного хэш-тега ' + HASHTAG_MAX_LENGTH + ' символов, включая решётку'
+    },
+    noRepeatHashtagSymbol: {
+      errorCode: 6,
+      errorText: 'В хеш-тег не может быть несколько решёток'
     }
   };
 
   var checkHashTagsCollection = function (line) {
+
     if (line.length > HASHTAGS_MAX_COUNT) {
       return HASHTAG_ERRORS_CODE.countLimit;
     }
     for (var i = 0; i < line.length; i++) {
+      var hashTagCount = 0;
+      for (var k = 0; k < line[i].length; k++) {
+        if (line[i][k] === HASHTAG_FIRST_SYMBOL) {
+          hashTagCount++;
+        }
+      }
+      if (hashTagCount > 1) {
+        return HASHTAG_ERRORS_CODE.noRepeatHashtagSymbol;
+      }
       for (var j = 0; j < line.length; j++) {
         if (line[i] === line[j] && i !== j) {
           return HASHTAG_ERRORS_CODE.noRepeat;
