@@ -4,6 +4,7 @@
 
   var DEBOUNCE_INTERVAL = 500;
   var IMG_FILTERS_BUTTON_ACTIVE = 'img-filters__button--active';
+  var IMAGE_TAG = 'A';
 
   var Selectors = {
     PICTURES_LIST: '.pictures',
@@ -82,7 +83,11 @@
           it.classList.remove(IMG_FILTERS_BUTTON_ACTIVE);
         });
         evt.target.classList.add(IMG_FILTERS_BUTTON_ACTIVE);
-        picturesContainer.innerHTML = '';
+        for (var i = picturesContainer.children.length - 1; i >= 0; i--) {
+          if (picturesContainer.children[i].tagName === IMAGE_TAG) {
+            picturesContainer.children[i].remove();
+          }
+        }
         var filterId = evt.target.id.toUpperCase().substring(evt.target.id.toUpperCase().indexOf('-') + 1);
         if (lastTimeout) {
           window.clearTimeout(lastTimeout);
