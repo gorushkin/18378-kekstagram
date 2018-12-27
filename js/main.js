@@ -78,6 +78,9 @@
       picturesList[i].querySelector('img').onload = function () {
         myCountFunc();
       };
+      picturesList[i].querySelector('img').onerror = function () {
+        myCountFunc();
+      };
       openThumbnailImage(i);
     }
   };
