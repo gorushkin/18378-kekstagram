@@ -97,7 +97,7 @@
             picturesContainer.children[i].remove();
           }
         }
-        var filterId = evt.target.id.toUpperCase().substring(evt.target.id.toUpperCase().indexOf('-') + 1);
+        var filterId = evt.target.id.toUpperCase().split('-')[1];
         if (lastTimeout) {
           window.clearTimeout(lastTimeout);
         }
