@@ -49,17 +49,28 @@
   var fragment = document.createDocumentFragment();
 
   var lastTimeout;
+  var count = 0;
   var renderPictureList = function (data) {
+
+    var myCountFunc = function () {
+      count++;
+      if (count === data.length) {
+        imageFltersContainer.classList.remove('img-filters--inactive');
+      }
+    };
 
     for (var i = 0; i < data.length; i++) {
       fragment.appendChild(window.thumbnails.renderUserPicture(data[i]));
     }
 
     picturesContainer.appendChild(fragment);
-
-
     var picturesList = picturesContainer.querySelectorAll(Selectors.PICTURES_LIST_ITEM);
-
+    for (i = 0; i < picturesList.length; i++) {
+      var q = picturesList[i].querySelector('img');
+      q.onload = function () {
+        myCountFunc();
+      };
+    }
 
     var openThumbnailImage = function (n) {
       picturesList[n].addEventListener('click', function () {
@@ -107,7 +118,9 @@
   window.validationinput.hashtagsInputHandle(hashtagsInput);
   window.validationinput.commentInputHandle(commentInput);
 
-  window.addEventListener('load', function () {
-    imageFltersContainer.classList.remove('img-filters--inactive');
-  });
+
+
+  // window.addEventListener('load', function () {
+  //   imageFltersContainer.classList.remove('img-filters--inactive');
+  // });
 })();
