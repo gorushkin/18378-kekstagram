@@ -3,8 +3,9 @@
 (function () {
 
   var DEBOUNCE_INTERVAL = 500;
-  var IMG_FILTERS_BUTTON_ACTIVE = 'img-filters__button--active';
+  var IMG_FILTERS_BUTTON_ACTIVE_CLASS = 'img-filters__button--active';
   var IMAGE_TAG = 'A';
+  var IMG_FILTERS_INACTIVE_CLASS = 'img-filters--inactive';
 
   var Selectors = {
     PICTURES_LIST: '.pictures',
@@ -49,13 +50,13 @@
   var fragment = document.createDocumentFragment();
 
   var lastTimeout;
-  var count = 0;
+  var countPictureLoad = 0;
   var renderPictureList = function (data) {
 
     var myCountFunc = function () {
-      count++;
-      if (count === data.length) {
-        imageFltersContainer.classList.remove('img-filters--inactive');
+      countPictureLoad++;
+      if (countPictureLoad === data.length) {
+        imageFltersContainer.classList.remove(IMG_FILTERS_INACTIVE_CLASS);
       }
     };
 
@@ -65,12 +66,6 @@
 
     picturesContainer.appendChild(fragment);
     var picturesList = picturesContainer.querySelectorAll(Selectors.PICTURES_LIST_ITEM);
-    for (i = 0; i < picturesList.length; i++) {
-      var q = picturesList[i].querySelector('img');
-      q.onload = function () {
-        myCountFunc();
-      };
-    }
 
     var openThumbnailImage = function (n) {
       picturesList[n].addEventListener('click', function () {
@@ -80,6 +75,9 @@
     };
 
     for (i = 0; i < picturesList.length; i++) {
+      picturesList[i].querySelector('img').onload = function () {
+        myCountFunc();
+      };
       openThumbnailImage(i);
     }
   };
@@ -91,9 +89,9 @@
     imageFltersContainer.addEventListener('click', function (evt) {
       if (evt.target.tagName === 'BUTTON') {
         imageFltersBottons.forEach(function (it) {
-          it.classList.remove(IMG_FILTERS_BUTTON_ACTIVE);
+          it.classList.remove(IMG_FILTERS_BUTTON_ACTIVE_CLASS);
         });
-        evt.target.classList.add(IMG_FILTERS_BUTTON_ACTIVE);
+        evt.target.classList.add(IMG_FILTERS_BUTTON_ACTIVE_CLASS);
         for (var i = picturesContainer.children.length - 1; i >= 0; i--) {
           if (picturesContainer.children[i].tagName === IMAGE_TAG) {
             picturesContainer.children[i].remove();
@@ -118,9 +116,4 @@
   window.validationinput.hashtagsInputHandle(hashtagsInput);
   window.validationinput.commentInputHandle(commentInput);
 
-
-
-  // window.addEventListener('load', function () {
-  //   imageFltersContainer.classList.remove('img-filters--inactive');
-  // });
 })();
