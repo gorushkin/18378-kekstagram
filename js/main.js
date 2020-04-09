@@ -17,7 +17,7 @@
     IMG_FILTERS_BUTTONS: '.img-filters__button'
   };
 
-  var GETURL = 'https://js.dump.academy/kekstagram/data';
+  var GETURL = 'https://javascript.pages.academy/kekstagram/data';
 
   var ImgFilter = {
     POPULAR: {

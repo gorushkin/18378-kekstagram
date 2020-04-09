@@ -6,7 +6,8 @@
   var ESC_KEYCODE = 27;
   var HASHTAG_INPUT_NAME = 'hashtags';
   var DESCRIPTION_INPUT_NAME = 'description';
-  var POSTURL = 'https://js.dump.academy/kekstagram';
+  // var POSTURL = 'https://js.dump.academy/kekstagram';
+  var POSTURL = 'https://javascript.pages.academy/kekstagram';
 
 
   var Selectors = {
